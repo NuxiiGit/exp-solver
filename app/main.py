@@ -1,4 +1,9 @@
-from test import *
+import lexer
 
-print("go")
-stuff()
+import sys
+
+argument = sys.argv
+del argument[0]
+src = " ".join(argument)
+tokens = lexer.lex(src)
+print(tokens)
