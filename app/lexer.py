@@ -16,6 +16,17 @@ def lex(s):
                     j += 1
                 else:
                     break
+        elif s[i].isdigit():
+            # consume number
+            real = False
+            while j < n:
+                if s[j].isdigit():
+                    j += 1
+                elif s[j] == "." and not real:
+                    real = True
+                    j += 1
+                else:
+                    break
         a.append(s[i : j])
         i = j
     return a
