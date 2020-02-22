@@ -12,7 +12,7 @@ def lex(s):
         if s[i].isalpha():
             # consume identifier
             while j < n:
-                if s[j].isalpha() or s[j].isdigit():
+                if s[j].isalpha() or s[j].isdigit() or s[j] = "'":
                     j += 1
                 else:
                     break
