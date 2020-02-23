@@ -25,6 +25,9 @@ class Lexer:
             if not self.empty() and self.chr() == ".":
                 self.advance()
                 self.advance_while(str.isdigit)
+        else:
+            # consume operators
+            self.advance()
         return self.substr()
 
     def advance_while(self, p):
@@ -33,7 +36,7 @@ class Lexer:
             if p(self.chr()):
                 self.advance()
             else:
-                return
+                break
 
     def advance(self):
         """Advances the lexer."""
