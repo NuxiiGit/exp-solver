@@ -1,32 +1,56 @@
-def lex(s):
-    """Splits an string into an array of smaller tokens."""
-    a = []
-    i = 0
-    n = len(s)
-    while i < n:
-        if s[i].isspace():
-            # ignore whitespace
-            i += 1
-            continue
-        j = i + 1
-        if s[i].isalpha():
+class Lexer:
+    """Splits a string into individual smaller tokens."""
+    
+    def __init__(self, src):
+        self.set_source(src, 0, len(src))
+
+    def set_source(self, src, offset, length):
+        """Sets the current source string to lex, and the offset and length to lex."""
+        self.src = src
+        self.cursor_begin = offset
+        self.cursor_end = self.cursor_begin
+        self.length = length
+    
+    def next(self):
+        """Returns the next token in the source string."""
+        self.advance_while(str.isspace)
+        self.clear()
+        x = self.chr()
+        if x.isalpha():
             # consume identifier
-            while j < n:
-                if s[j].isalpha() or s[j].isdigit() or s[j] = "'":
-                    j += 1
-                else:
-                    break
-        elif s[i].isdigit():
+            self.advance_while(lambda x : x.isalpha() or x.isdigit() or x == "'")
+        elif x.isdigit():
             # consume number
-            real = False
-            while j < n:
-                if s[j].isdigit():
-                    j += 1
-                elif s[j] == "." and not real:
-                    real = True
-                    j += 1
-                else:
-                    break
-        a.append(s[i : j])
-        i = j
-    return a
+            self.advance_while(str.isdigit)
+            if self.chr() == ".":
+                self.advance()
+                self.advance_while(str.isdigit)
+        return self.substr()
+
+    def advance_while(self, p):
+        """Advances whilst some predicate `p` is true."""
+        while not self.empty():
+            if p(self.chr()):
+                self.advance()
+            else:
+                return
+
+    def advance(self):
+        """Advances the lexer."""
+        self.cursor_end += 1
+
+    def chr(self):
+        """Returns the next character."""
+        return self.src[self.cursor_end]
+
+    def substr(self):
+        """Returns the current substring."""
+        return self.src[self.cursor_begin : self.cursor_end]
+    
+    def clear(self):
+        """Clears the current substring."""
+        self.cursor_begin = self.cursor_end
+
+    def empty(self):
+        """Returns whether the lexer is empty."""
+        return self.cursor_end >= self.length
