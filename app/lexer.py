@@ -22,7 +22,7 @@ class Lexer:
         elif x.isdigit():
             # consume number
             self.advance_while(str.isdigit)
-            if self.chr() == ".":
+            if not self.empty() and self.chr() == ".":
                 self.advance()
                 self.advance_while(str.isdigit)
         return self.substr()
