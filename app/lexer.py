@@ -4,6 +4,15 @@ class Lexer:
     def __init__(self, src):
         self.set_source(src, 0, len(src))
 
+    def __iter__(self):
+        return self
+    
+    def __next__(self):
+        if self.empty():
+            raise StopIteration
+        else:
+            return self.next()
+
     def set_source(self, src, offset, length):
         """Sets the current source string to lex, and the offset and length to lex."""
         self.src = src

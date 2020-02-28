@@ -5,7 +5,6 @@ import sys
 argument = sys.argv
 del argument[0]
 src = " ".join(argument)
-lexer = Lexer(src)
-while not lexer.empty():
-    token = lexer.next()
+lexer = iter(Lexer(src))
+for token in lexer:
     print(token)
