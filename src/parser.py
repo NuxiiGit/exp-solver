@@ -5,11 +5,11 @@ class Parser:
         self.lexer = iter(lexer)
 
     def parse(self):
-        yield
+        return self.parse_expr_terminal()
 
     def parse_expr_terminal(self):
         """parses a terminal expression"""
-        yield
+        return self.next()
 
     def next(self):
         try:

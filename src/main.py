@@ -14,7 +14,7 @@ else:
     src = argument[0]
     lexer = Lexer(src)
     parser = Parser(lexer)
-    print(parser.next())
+    print("a: ", parser.parse())
     for token in lexer:
         print(token)
-    print(parser.next())
+    print("b: ", parser.parse())
