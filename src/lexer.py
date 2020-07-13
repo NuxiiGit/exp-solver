@@ -1,12 +1,12 @@
 class Lexer:
     """Splits a string into individual smaller tokens."""
-    
+
     def __init__(self, src):
         self.set_source(src, 0, len(src))
 
     def __iter__(self):
         return self
-    
+
     def __next__(self):
         if self.empty():
             raise StopIteration
@@ -19,7 +19,7 @@ class Lexer:
         self.cursor_begin = offset
         self.cursor_end = self.cursor_begin
         self.length = length
-    
+
     def next(self):
         """Returns the next token in the source string."""
         self.advance_while(str.isspace)
@@ -58,7 +58,7 @@ class Lexer:
     def substr(self):
         """Returns the current substring."""
         return self.src[self.cursor_begin : self.cursor_end]
-    
+
     def clear(self):
         """Clears the current substring."""
         self.cursor_begin = self.cursor_end
