@@ -1,3 +1,13 @@
+class Token:
+    """Represents a kind of token."""
+
+    def __init__(self, value, infix=False):
+        self.value = value
+        self.infix = infix
+
+    def __str__(self):
+        return "value=" + str(self.value) + ", infix=" + str(self.infix)
+
 class Lexer:
     """Splits a string into individual smaller tokens."""
 
@@ -24,6 +34,7 @@ class Lexer:
         """Returns the next token in the source string."""
         self.advance_while(str.isspace)
         self.clear()
+        infix = False
         x = self.chr()
         if x.isalpha():
             # consume identifier
@@ -37,7 +48,8 @@ class Lexer:
         else:
             # consume operators
             self.advance()
-        return self.substr()
+            infix = True
+        return Token(self.substr(), infix)
 
     def advance_while(self, p):
         """Advances whilst some predicate `p` is true."""
