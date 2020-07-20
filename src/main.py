@@ -1,5 +1,6 @@
 from lexer import Lexer
 from parser import Parser
+import parse
 
 import sys
 
@@ -12,9 +13,12 @@ if argument_count == 0:
     print("  \"2a + 5b\"")
 else:
     src = argument[0]
-    lexer = Lexer(src)
-    parser = Parser(lexer)
-    print("a: ", parser.parse())
-    for token in lexer:
-        print(token)
-    print("b: ", parser.parse())
+    result = parse.char(src, "a")
+    print(result)
+
+#    lexer = Lexer(src)
+#    parser = Parser(lexer)
+#    print("a: ", parser.parse())
+#    for token in lexer:
+#        print(token)
+#    print("b: ", parser.parse())
