@@ -1,9 +1,8 @@
-def sat(s, p):
+def sat(p):
     """Parses a character of a string if it satisfies some predicate."""
-    if s == "" or (not p(s[0])):
-        return None
-    return s[0], s[1:]
+    return (lambda x: None if x == "" or (not p(x[0])) else (x[0], x[1:]))
 
-def char(s, c):
+def char(c):
     """Parses a specific character."""
-    return sat(s, lambda x: x == c)
+    return sat(lambda x: x == c)
+

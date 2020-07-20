@@ -13,7 +13,7 @@ if argument_count == 0:
     print("  \"2a + 5b\"")
 else:
     src = argument[0]
-    result = parse.char(src, "a")
+    result = parse.char("a")(src)
     print(result)
 
 #    lexer = Lexer(src)
