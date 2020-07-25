@@ -1,9 +1,12 @@
 class SExpr:
     """Abstract syntax for mathematical expressions."""
 
-    def __init__(self, op, args):
+    def __init__(self, op, arg):
         self.op = op
         self.arg = arg
+
+    def __str__(self):
+        return "[op=" + str(self.op) + ", arg=" + str(self.arg) + "]"
 
 class Parser:
     """Parses an array of tokens into a syntax tree."""
@@ -23,7 +26,15 @@ class Parser:
 
     def parse_expr(self):
         """Parses an expression."""
-        return self.parse_expr_terminal()
+        return self.parse_expr_apply()
+
+    def parse_expr_apply(self):
+        """Parses the application of two values."""
+        expr = self.parse_expr_terminal()
+        while self.sat(lambda x: x.node == "(" or x.node == "[" or x.node == "{" or x.infix == False):
+            arg = self.parse_expr_terminal()
+            expr = SExpr(expr, arg)
+        return expr
 
     def parse_expr_terminal(self):
         """Parses a terminal expression."""

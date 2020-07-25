@@ -6,7 +6,7 @@ class Token:
         self.infix = infix
 
     def __str__(self):
-        return "[node=" + str(self.node) + " infix=" + str(self.infix) + "]"
+        return "[node=" + str(self.node) + ", infix=" + str(self.infix) + "]"
 
 class Lexer:
     """Splits a string into individual smaller tokens."""
