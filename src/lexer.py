@@ -27,7 +27,7 @@ class Lexer:
         x = self.chr()
         if x.isalpha():
             # consume identifier
-            self.advance_while(lambda x : x.isalpha() or x.isdigit() or x == "'")
+            self.advance_while(lambda x : x.isalpha() or x.isdigit() or x == "'" or x == "_")
         elif x.isdigit():
             # consume number
             self.advance_while(str.isdigit)
