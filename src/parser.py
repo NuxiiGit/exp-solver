@@ -1,3 +1,10 @@
+class SExpr:
+    """Abstract syntax for mathematical expressions."""
+
+    def __init__(self, op, args):
+        self.op = op
+        self.args = args
+
 class Parser:
     """Parses an array of tokens into a syntax tree."""
 
@@ -12,11 +19,36 @@ class Parser:
 
     def parse(self):
         """Parses the current lexer."""
+        return self.parse_expr()
+
+    def parse_expr(self):
+        """Parses an expression."""
         return self.parse_expr_terminal()
 
     def parse_expr_terminal(self):
         """parses a terminal expression."""
-        return self.next()
+        if self.sat(lambda x: x.infix == False):
+            return self.next().node
+        else:
+            return self.parse_expr_grouping()
+
+    def parse_expr_grouping(self):
+        """Parses a grouping of expressions."""
+        self.expects(lambda x: x.node == "(", "malformed expression")
+        expr = self.parse_expr()
+        self.expects(lambda x: x.node == ")", "expected closing parenthesis in grouping")
+        return expr
+
+    def expects(self, p, on_err):
+        """Throws an error is the predicate does not hold for the next token."""
+        if self.sat(p):
+            return self.next()
+        else:
+            self.error(on_err)
+
+    def sat(self, p):
+        """Returns whether the next token satisfies this predicate."""
+        return p(self.peek())
 
     def peek(self):
         """Returns the peeked token"""
