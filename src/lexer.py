@@ -1,3 +1,13 @@
+class Token:
+    """Represents a token and its infix value."""
+
+    def __init__(self, node, infix):
+        self.node = node
+        self.infix = infix
+
+    def __str__(self):
+        return "[node=" + str(self.node) + " infix=" + str(self.infix) + "]"
+
 class Lexer:
     """Splits a string into individual smaller tokens."""
 
@@ -25,7 +35,8 @@ class Lexer:
         self.advance_while(str.isspace)
         self.clear()
         x = self.chr()
-        if x.isalpha():
+        infix = False
+        if x.isalpha() or x == "_":
             # consume identifier
             self.advance_while(lambda x : x.isalpha() or x.isdigit() or x == "'" or x == "_")
         elif x.isdigit():
@@ -36,8 +47,9 @@ class Lexer:
                 self.advance_while(str.isdigit)
         else:
             # consume operators
+            infix = True
             self.advance()
-        return self.substr()
+        return Token(self.substr(), infix)
 
     def advance_while(self, p):
         """Advances whilst some predicate `p` is true."""
