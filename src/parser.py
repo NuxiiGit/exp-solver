@@ -34,9 +34,10 @@ class Parser:
 
     def parse_expr_grouping(self):
         """Parses a grouping of expressions."""
-        self.expects(lambda x: x.node == "(", "malformed expression")
+        paren = self.expects(lambda x: x.node == "(" or x.node == "[" or x.node == "{", "malformed expression")
+        paren_close = { "(" : ")", "[" : "]", "{" : "}" }[paren.node]
         expr = self.parse_expr()
-        self.expects(lambda x: x.node == ")", "expected closing parenthesis in grouping")
+        self.expects(lambda x: x.node == paren_close, "expected closing parenthesis in grouping")
         return expr
 
     def expects(self, p, on_err):
