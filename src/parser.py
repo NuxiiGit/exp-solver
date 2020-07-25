@@ -3,7 +3,7 @@ class SExpr:
 
     def __init__(self, op, args):
         self.op = op
-        self.args = args
+        self.arg = arg
 
 class Parser:
     """Parses an array of tokens into a syntax tree."""
@@ -26,7 +26,7 @@ class Parser:
         return self.parse_expr_terminal()
 
     def parse_expr_terminal(self):
-        """parses a terminal expression."""
+        """Parses a terminal expression."""
         if self.sat(lambda x: x.infix == False):
             return self.next().node
         else:
@@ -36,12 +36,27 @@ class Parser:
         """Parses a grouping of expressions."""
         paren = self.expects(lambda x: x.node == "(" or x.node == "[" or x.node == "{", "malformed expression")
         paren_close = { "(" : ")", "[" : "]", "{" : "}" }[paren.node]
-        expr = self.parse_expr()
+        if self.sat(lambda x: x.node == paren_close):
+            self.next()
+            return []
+        expr = self.parse_expr_list()
         self.expects(lambda x: x.node == paren_close, "expected closing parenthesis in grouping")
         return expr
 
+    def parse_expr_list(self):
+        """Parses a list of expressions."""
+        expr = self.parse_expr()
+        if not self.sat(lambda x: x.node == ","):
+            return expr
+        exprs = [expr]
+        while self.sat(lambda x: x.node == ","):
+           self.next()
+           expr = self.parse_expr()
+           exprs.append(expr)
+        return exprs
+
     def expects(self, p, on_err):
-        """Throws an error is the predicate does not hold for the next token."""
+        """Throws an error if the predicate does not hold for the next token."""
         if self.sat(p):
             return self.next()
         else:
@@ -49,7 +64,8 @@ class Parser:
 
     def sat(self, p):
         """Returns whether the next token satisfies this predicate."""
-        return p(self.peek())
+        peek = self.peek()
+        return False if peek == None else p(peek)
 
     def peek(self):
         """Returns the peeked token"""
