@@ -35,21 +35,21 @@ class Lexer:
         self.advance_while(str.isspace)
         self.clear()
         x = self.chr()
-        infix = False
         if x.isalpha() or x == "_":
             # consume identifier
             self.advance_while(lambda x : x.isalpha() or x.isdigit() or x == "'" or x == "_")
+            return Token(self.substr(), False)
         elif x.isdigit():
             # consume number
             self.advance_while(str.isdigit)
             if not self.empty() and self.chr() == ".":
                 self.advance()
                 self.advance_while(str.isdigit)
+            return Token(float(self.substr()), False)
         else:
             # consume operators
-            infix = True
             self.advance()
-        return Token(self.substr(), infix)
+            return Token(x, True)
 
     def advance_while(self, p):
         """Advances whilst some predicate `p` is true."""
