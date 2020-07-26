@@ -9,6 +9,8 @@ def evaluate_expr(expr):
                 return reduce(lambda x, y: x + y, arg, 0)
             else:
                 return arg
+        elif type(op) != list and type(arg) != list:
+            return evaluate_expr(op) * evaluate_expr(arg)
         else:
             raise Exception("unknown operator '" + str(op) + "'")
     else:
