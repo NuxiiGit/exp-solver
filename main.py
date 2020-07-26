@@ -1,5 +1,6 @@
 from lexer import Lexer
 from parser import Parser
+from evaluator import *
 
 import sys
 
@@ -13,4 +14,6 @@ if argument_count == 0:
 else:
     src = argument[0]
     parser = Parser(Lexer(src))
-    print("parse: ", parser.parse())
+    expr = parser.parse()
+    val = evaluate_expr(expr)
+    print(val)
