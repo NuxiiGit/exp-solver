@@ -41,7 +41,7 @@ class Parser:
         expr = self.parse_expr_terminal()
         while self.sat(lambda x: x.node == "(" or x.node == "[" or x.node == "{" or x.infix == False):
             arg = self.parse_expr_terminal()
-            expr = Op("", expr, arg)
+            expr = Op("$", expr, arg)
         return expr
 
     def parse_expr_terminal(self):

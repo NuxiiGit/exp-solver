@@ -8,6 +8,9 @@ def evaluate_expr(expr):
         r = expr.r
         if op == "+":
             return evaluate_expr(l) + evaluate_expr(r)
+        elif op == "$":
+            # application/implicit multiplication
+            return evaluate_expr(l) * evaluate_expr(r)
         else:
             raise Exception("unknown operator '" + str(op) + "'")
     else:
