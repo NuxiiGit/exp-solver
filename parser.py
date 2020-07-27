@@ -38,8 +38,8 @@ class Parser:
 
     def parse_expr_terminal(self):
         """Parses a terminal expression."""
-        if self.sat(lambda x: x.infix == False):
-            return self.next().node
+        if (token := self.advance(lambda x: x.infix == False)) != None:
+            return token.node
         else:
             return self.parse_expr_grouping()
 
@@ -47,8 +47,7 @@ class Parser:
         """Parses a grouping of expressions."""
         paren = self.expects(lambda x: x.node == "(" or x.node == "[" or x.node == "{", "malformed expression")
         paren_close = { "(" : ")", "[" : "]", "{" : "}" }[paren.node]
-        if self.sat(lambda x: x.node == paren_close):
-            self.next()
+        if self.advance(lambda x: x.node == paren_close) != None:
             return []
         expr = self.parse_expr_list()
         self.expects(lambda x: x.node == paren_close, "expected closing parenthesis in grouping")
@@ -60,8 +59,7 @@ class Parser:
         if not self.sat(lambda x: x.node == ","):
             return expr
         exprs = [expr]
-        while self.sat(lambda x: x.node == ","):
-           self.next()
+        while self.advance(lambda x: x.node == ",") != None:
            expr = self.parse_expr()
            exprs.append(expr)
         return exprs
@@ -72,6 +70,13 @@ class Parser:
             return self.next()
         else:
             self.error(on_err)
+
+    def advance(self, p):
+        """Advances the parser and returns the token if it satisfies the predicate. Otherwise returns `None`."""
+        if self.sat(p):
+            return self.next()
+        else:
+            return None
 
     def sat(self, p):
         """Returns whether the next token satisfies this predicate."""

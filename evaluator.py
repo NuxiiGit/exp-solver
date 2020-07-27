@@ -14,4 +14,5 @@ def evaluate_expr(expr):
         else:
             raise Exception("unknown operator '" + str(op) + "'")
     else:
+        # to do: pass free variables as dictionary
         return expr
