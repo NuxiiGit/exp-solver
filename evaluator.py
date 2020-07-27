@@ -1,4 +1,5 @@
 from parser import SExpr
+from functools import reduce
 
 def evaluate_expr(expr):
     if type(expr) == SExpr:
@@ -6,7 +7,7 @@ def evaluate_expr(expr):
         arg = expr.arg
         if op == "+":
             if type(arg) == list:
-                return reduce(lambda x, y: x + y, arg, 0)
+                return reduce(lambda x, y: evaluate_expr(x) + evaluate_expr(y), arg, 0)
             else:
                 return arg
         elif type(op) != list and type(arg) != list:

@@ -26,7 +26,14 @@ class Parser:
 
     def parse_expr(self):
         """Parses an expression."""
-        return self.parse_expr_apply()
+        return self.parse_expr_addition()
+
+    def parse_expr_addition(self):
+        """Parses `+` and `-` binary operations."""
+        expr = self.parse_expr_apply()
+        while (token := self.advance(lambda x: x.node == "+" or x.node == "-")) != None:
+            expr = SExpr(token.node, [expr, self.parse_expr_apply()])
+        return expr
 
     def parse_expr_apply(self):
         """Parses the application of two values."""
