@@ -4,14 +4,11 @@ from functools import reduce
 def evaluate_expr(expr):
     if type(expr) == SExpr:
         op = expr.op
-        arg = expr.arg
+        args = expr.args
         if op == "+":
-            if type(arg) == list:
-                return reduce(lambda x, y: evaluate_expr(x) + evaluate_expr(y), arg, 0)
-            else:
-                return arg
-        elif type(op) != list and type(arg) != list:
-            return evaluate_expr(op) * evaluate_expr(arg)
+            return reduce(lambda x, y: evaluate_expr(x) + evaluate_expr(y), args, 0)
+        elif op == "":
+            return reduce(lambda x, y: evaluate_expr(x) * evaluate_expr(y), args, 1)
         else:
             raise Exception("unknown operator '" + str(op) + "'")
     else:
