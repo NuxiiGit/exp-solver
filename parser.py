@@ -38,10 +38,10 @@ class Parser:
 
     def parse_expr_apply(self):
         """Parses the application of two values."""
-        expr = self.parse_expr_terminal()
+        expr = self.parse_expr_grouping()
         while self.sat(lambda x: x.node == "(" or x.node == "[" or x.node == "{" or x.infix == False):
-            arg = self.parse_expr_terminal()
-            expr = Op("$", expr, arg)
+            arg = self.parse_expr_grouping()
+            expr = Op("*", expr, arg)
         return expr
 
     def parse_expr_terminal(self):
@@ -53,13 +53,16 @@ class Parser:
 
     def parse_expr_grouping(self):
         """Parses a grouping of expressions."""
-        paren = self.expects(lambda x: x.node == "(" or x.node == "[" or x.node == "{", "malformed expression")
-        paren_close = { "(" : ")", "[" : "]", "{" : "}" }[paren.node]
-        if self.advance(lambda x: x.node == paren_close) != None:
-            return []
-        expr = self.parse_expr_list()
-        self.expects(lambda x: x.node == paren_close, "expected closing parenthesis in grouping")
-        return expr
+        token = self.expects(lambda _: True, "malformed expression")
+        if token.node == "(" or token.node == "[" or token.node == "{":
+            paren_close = { "(" : ")", "[" : "]", "{" : "}" }[token.node]
+            if self.advance(lambda x: x.node == paren_close) != None:
+                return []
+            expr = self.parse_expr_list()
+            self.expects(lambda x: x.node == paren_close, "expected closing parenthesis in grouping")
+            return expr
+        else:
+            return token.node
 
     def parse_expr_list(self):
         """Parses a list of expressions."""
