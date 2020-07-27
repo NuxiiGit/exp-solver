@@ -1,12 +1,13 @@
-class SExpr:
-    """Abstract syntax for mathematical expressions."""
+class Op:
+    """Binary operation."""
 
-    def __init__(self, op, *args):
+    def __init__(self, op, l, r):
         self.op = op
-        self.args = args
+        self.l = l
+        self.r = r
 
     def __str__(self):
-        return "[op=" + str(self.op) + ", arg=" + str(self.args) + "]"
+        return "[ op='" + str(self.op) + "' , l='" + str(self.l) + "' , r='" + str(self.r) + "' ]"
 
 class Parser:
     """Parses an array of tokens into a syntax tree."""
@@ -32,7 +33,7 @@ class Parser:
         """Parses `+` and `-` binary operations."""
         expr = self.parse_expr_apply()
         while (token := self.advance(lambda x: x.node == "+" or x.node == "-")) != None:
-            expr = SExpr(token.node, expr, self.parse_expr_apply())
+            expr = Op(token.node, expr, self.parse_expr_apply())
         return expr
 
     def parse_expr_apply(self):
@@ -40,7 +41,7 @@ class Parser:
         expr = self.parse_expr_terminal()
         while self.sat(lambda x: x.node == "(" or x.node == "[" or x.node == "{" or x.infix == False):
             arg = self.parse_expr_terminal()
-            expr = SExpr("", expr, arg)
+            expr = Op("", expr, arg)
         return expr
 
     def parse_expr_terminal(self):

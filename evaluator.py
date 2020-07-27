@@ -1,14 +1,13 @@
-from parser import SExpr
+from parser import Op
 from functools import reduce
 
 def evaluate_expr(expr):
-    if type(expr) == SExpr:
+    if type(expr) == Op:
         op = expr.op
-        args = expr.args
+        l = expr.l
+        r = expr.r
         if op == "+":
-            return reduce(lambda x, y: evaluate_expr(x) + evaluate_expr(y), args, 0)
-        elif op == "":
-            return reduce(lambda x, y: evaluate_expr(x) * evaluate_expr(y), args, 1)
+            return evaluate_expr(l) + evaluate_expr(r)
         else:
             raise Exception("unknown operator '" + str(op) + "'")
     else:
