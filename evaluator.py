@@ -21,6 +21,8 @@ def evaluate_expr(expr):
                 return evaluate_expr(l) * evaluate_expr(r)
         else:
             raise Exception("unknown operator '" + str(op) + "'")
+    elif type(expr) == str:
+        # implement lookup table for free variables
+        raise Exception("unknown variable '" + str(expr) + "'")
     else:
-        # to do: pass free variables as dictionary
         return expr

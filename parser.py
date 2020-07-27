@@ -44,13 +44,6 @@ class Parser:
             expr = Op("*", expr, arg)
         return expr
 
-    def parse_expr_terminal(self):
-        """Parses a terminal expression."""
-        if (token := self.advance(lambda x: x.infix == False)) != None:
-            return token.node
-        else:
-            return self.parse_expr_grouping()
-
     def parse_expr_grouping(self):
         """Parses a grouping of expressions."""
         token = self.expects(lambda _: True, "malformed expression")
