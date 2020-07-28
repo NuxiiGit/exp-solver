@@ -1,5 +1,5 @@
 from parser import Op
-from functools import reduce
+
 import math
 
 def evaluate_expr(expr, binding):
@@ -16,7 +16,13 @@ def evaluate_expr(expr, binding):
             if l == "-":
                 return -evaluate_expr(r, binding)
             if l == "+":
-                return r
+                return evaluate_expr(r, binding)
+            if l == "ceil":
+                return math.ceil(evaluate_expr(r, binding))
+            if l == "floor":
+                return math.floor(evaluate_expr(r, binding))
+            if l == "round":
+                return round(evaluate_expr(r, binding), 0)
             if r == "!":
                 return math.gamma(evaluate_expr(l, binding) + 1)
             else:
