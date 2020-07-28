@@ -18,7 +18,7 @@ def evaluate_expr(expr):
             if l == "+":
                 return r
             if r == "!":
-                return math.factorial(evaluate_expr(l))
+                return math.gamma(evaluate_expr(l) + 1)
             else:
                 # if all else fails, it must be multiplication
                 return evaluate_expr(l) * evaluate_expr(r)

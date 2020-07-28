@@ -37,7 +37,7 @@ class Lexer:
         x = self.chr()
         if x.isalpha() or x == "_":
             # consume identifier
-            self.advance_while(lambda x : x.isalpha() or x.isdigit() or x == "'" or x == "_")
+            self.advance_while(lambda x : x.isalpha() or x.isdigit() or x in { "'", "_" })
             return Token(self.substr(), False)
         elif x.isdigit():
             # consume real number

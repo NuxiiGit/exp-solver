@@ -32,14 +32,14 @@ class Parser:
     def parse_expr_addition(self):
         """Parses `+` and `-` binary operators."""
         expr = self.parse_expr_apply()
-        while (token := self.advance(lambda x: x.node == "+" or x.node == "-")) != None:
+        while (token := self.advance(lambda x: x.node in { "+", "-" })) != None:
             expr = Op(token.node, expr, self.parse_expr_apply())
         return expr
 
     def parse_expr_apply(self):
         """Parses the application of two values."""
         expr = self.parse_expr_grouping()
-        while self.sat(lambda x: x.node == "(" or x.node == "[" or x.node == "{" or x.node == "!" or x.infix == False):
+        while self.sat(lambda x: x.infix == False or x.node in { "(", "[", "{", "!" }):
             arg = self.parse_expr_grouping()
             expr = Op("*", expr, arg)
         return expr
@@ -47,7 +47,7 @@ class Parser:
     def parse_expr_grouping(self):
         """Parses a grouping of expressions."""
         token = self.expects(lambda _: True, "malformed expression")
-        if token.node == "(" or token.node == "[" or token.node == "{":
+        if token.node in { "(", "[", "{" }:
             paren_close = { "(" : ")", "[" : "]", "{" : "}" }[token.node]
             if self.advance(lambda x: x.node == paren_close) != None:
                 return []
