@@ -10,7 +10,7 @@ argument_count = len(argument)
 if argument_count == 0:
     print("invalid argument count")
     print("please pass the expression as a string, e.g.")
-    print("  \"2a + 5b\"")
+    print("  \"2 + 5\"")
 else:
     src = argument[0]
     parser = Parser(Lexer(src))

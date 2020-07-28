@@ -9,7 +9,7 @@ def evaluate_expr(expr, binding):
         r = expr.r
         if op == "+":
             return evaluate_expr(l, binding) + evaluate_expr(r, binding)
-        elif op == "-":
+        elif op in { "-", "=" }:
             return evaluate_expr(l, binding) - evaluate_expr(r, binding)
         elif op == "*":
             # unary function application and scalar multiplication
