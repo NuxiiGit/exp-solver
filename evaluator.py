@@ -15,15 +15,19 @@ def evaluate_expr(expr, binding):
             # unary function application and scalar multiplication
             if l == "-":
                 return -evaluate_expr(r, binding)
-            if l == "+":
+            elif l == "+":
                 return evaluate_expr(r, binding)
-            if l == "ceil":
+            elif l == "ceil":
                 return math.ceil(evaluate_expr(r, binding))
-            if l == "floor":
+            elif l == "floor":
                 return math.floor(evaluate_expr(r, binding))
-            if l == "round":
+            elif l == "round":
                 return round(evaluate_expr(r, binding), 0)
-            if r == "!":
+            elif l == "abs":
+                return math.fabs(evaluate_expr(r, binding))
+            elif l == "ln":
+                return math.log(evaluate_expr(r, binding))
+            elif r == "!":
                 return math.gamma(evaluate_expr(l, binding) + 1)
             else:
                 # if all else fails, it must be multiplication
