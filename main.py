@@ -15,5 +15,5 @@ else:
     src = argument[0]
     parser = Parser(Lexer(src))
     expr = parser.parse()
-    val = evaluate_expr(expr)
+    val = evaluate_expr(expr, { "a" : 12, "b" : -19.3 })
     print(val)
