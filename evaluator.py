@@ -26,6 +26,8 @@ def evaluate_expr(expr):
             raise Exception("unknown operator '" + str(op) + "'")
     elif type(expr) == str:
         # implement lookup table for free variables
-        raise Exception("unknown variable '" + str(expr) + "'")
+        if expr and expr[0] == "_" or expr[0].isalpha():
+            raise Exception("unknown variable '" + expr + "'")
+        raise Exception("invalid variable identifier '" + expr + "'")
     else:
         return expr
