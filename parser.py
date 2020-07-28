@@ -33,7 +33,7 @@ class Parser:
         """Parses `=` binary operator."""
         expr = self.parse_expr_addition()
         while (token := self.advance(lambda x: x.node == "=")) != None:
-            expr = Op(token.node, expr, self.parse_expr_addition())
+            expr = Op("-", expr, self.parse_expr_addition())
         return expr
 
     def parse_expr_addition(self):
