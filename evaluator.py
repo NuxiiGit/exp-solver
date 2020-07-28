@@ -34,3 +34,14 @@ def evaluate_expr(expr, binding):
         raise Exception("invalid variable identifier '" + expr + "'")
     else:
         return expr
+
+def show_expr(expr):
+    if type(expr) == Op:
+        op = expr.op
+        l = expr.l
+        r = expr.r
+        return "(" + show_expr(l) + " " + op + " " + show_expr(r) + ")"
+    elif type(expr) == str:
+        return expr
+    else:
+        return str(expr)
