@@ -27,7 +27,10 @@ class Parser:
 
     def parse_expr(self):
         """Parses an expression."""
-        return self.parse_expr_addition()
+        expr = self.parse_expr_addition()
+        while (token := self.advance(lambda x: x.infix == True)) != None:
+            expr = Op(token.node, expr, self.parse_expr_addition())
+        return expr
 
     def parse_expr_addition(self):
         """Parses `+` and `-` binary operators."""
