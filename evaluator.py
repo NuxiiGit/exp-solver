@@ -1,5 +1,6 @@
 from parser import Op
 from functools import reduce
+import math
 
 def evaluate_expr(expr):
     if type(expr) == Op:
@@ -16,6 +17,8 @@ def evaluate_expr(expr):
                 return -evaluate_expr(r)
             if l == "+":
                 return r
+            if r == "!":
+                return math.factorial(evaluate_expr(l))
             else:
                 # if all else fails, it must be multiplication
                 return evaluate_expr(l) * evaluate_expr(r)

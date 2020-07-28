@@ -30,7 +30,7 @@ class Parser:
         return self.parse_expr_addition()
 
     def parse_expr_addition(self):
-        """Parses `+` and `-` binary operations."""
+        """Parses `+` and `-` binary operators."""
         expr = self.parse_expr_apply()
         while (token := self.advance(lambda x: x.node == "+" or x.node == "-")) != None:
             expr = Op(token.node, expr, self.parse_expr_apply())
@@ -39,7 +39,7 @@ class Parser:
     def parse_expr_apply(self):
         """Parses the application of two values."""
         expr = self.parse_expr_grouping()
-        while self.sat(lambda x: x.node == "(" or x.node == "[" or x.node == "{" or x.infix == False):
+        while self.sat(lambda x: x.node == "(" or x.node == "[" or x.node == "{" or x.node == "!" or x.infix == False):
             arg = self.parse_expr_grouping()
             expr = Op("*", expr, arg)
         return expr
