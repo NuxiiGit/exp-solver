@@ -40,16 +40,21 @@ class Lexer:
             self.advance_while(lambda x : x.isalpha() or x.isdigit() or x == "'" or x == "_")
             return Token(self.substr(), False)
         elif x.isdigit():
-            # consume number
+            # consume real number
             self.advance_while(str.isdigit)
-            if not self.empty() and self.chr() == ".":
+            if self.sat(lambda x: x == "."):
                 self.advance()
                 self.advance_while(str.isdigit)
             return Token(float(self.substr()), False)
         else:
             # consume operators
             self.advance()
-            return Token(x, True)
+            if x == '.' and self.sat(str.isdigit):
+                # fractional numbers
+                self.advance_while(str.isdigit)
+                return Token(float(self.substr()), False)
+            else:
+                return Token(x, True)
 
     def advance_while(self, p):
         """Advances whilst some predicate `p` is true."""
@@ -58,6 +63,10 @@ class Lexer:
                 self.advance()
             else:
                 break
+
+    def sat(self, p):
+        """Returns whether the current character satisfies a predicate `p`."""
+        return not self.empty() and p(self.chr())
 
     def advance(self):
         """Advances the lexer."""
