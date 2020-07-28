@@ -27,8 +27,12 @@ class Parser:
 
     def parse_expr(self):
         """Parses an expression."""
+        return self.parse_expr_equality()
+
+    def parse_expr_equality(self):
+        """Parses `=` binary operator."""
         expr = self.parse_expr_addition()
-        while (token := self.advance(lambda x: x.infix == True)) != None:
+        while (token := self.advance(lambda x: x.node == "=")) != None:
             expr = Op(token.node, expr, self.parse_expr_addition())
         return expr
 
