@@ -14,13 +14,14 @@ if argument_count == 0:
 else:
     src = argument[0]
     lexer = Lexer(src)
-    for token in lexer:
-        print(token)
-        print("  | symbol - ", is_symbol(token))
-        print("  | number - ", is_number(token))
-        print("  | ident  - ", is_identifier(token))
-    #parser = Parser(Lexer(src))
-    #expr = parser.parse()
+    #for token in lexer:
+    #    print(token)
+    #    print("  | symbol - ", is_symbol(token))
+    #    print("  | number - ", is_number(token))
+    #    print("  | ident  - ", is_identifier(token))
+    parser = Parser(Lexer(src))
+    expr = parser.parse()
+    print(expr)
     #val = evaluate_expr(expr, { "a" : 12, "b" : -19.3 })
     #print("expr:   " + show_expr(expr))
     #print("result: " + str(val))

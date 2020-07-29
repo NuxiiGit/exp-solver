@@ -1,3 +1,5 @@
+from lexer import is_number, is_symbol, is_identifier
+
 class Op:
     """Binary operation."""
 
@@ -23,11 +25,30 @@ class Parser:
 
     def parse(self):
         """Parses the current lexer."""
-        return self.parse_expr()
+        return self.parse_grouping()
 
-    def parse_expr(self):
-        """Parses an expression."""
-        return self.parse_expr_equality()
+    def parse_grouping(self):
+        """Parses a grouping of expressions."""
+        if (token := self.advance(lambda x: x in { "(", "[", "{" })) != None:
+            paren_close = { "(" : ")", "[" : "]", "{" : "}" }[token]
+            if self.advance(lambda x: x == paren_close) != None:
+                return []
+            expr = self.parse_expr_list()
+            self.expects(lambda x: x == paren_close, "expected closing parenthesis in grouping")
+            return expr
+        else:
+            return self.expects(lambda x: is_identifier(x) or is_number(x), "expected terminal value")
+
+    def parse_list(self):
+        """Parses a list of expressions."""
+        expr = self.parse()
+        if not self.sat(lambda x: x == ","):
+            return expr
+        exprs = [expr]
+        while self.advance(lambda x: x == ",") != None:
+           expr = self.parse()
+           exprs.append(expr)
+        return exprs
 
     def parse_expr_equality(self):
         """Parses `=` binary operator."""
