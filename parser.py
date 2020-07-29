@@ -25,7 +25,7 @@ class Parser:
         self.next()
 
     def set_precedence(self, ops):
-        """Sets the precedence of parsed """
+        """Sets the precedence of operators."""
         self.ops = ops
         prec_set = set()
         precs = []
@@ -35,7 +35,6 @@ class Parser:
             precs.append(prec)
             prec_set.add(prec)
         self.precs = precs
-        print(self.precs)
 
     def parse(self):
         """Parses the current lexer."""
