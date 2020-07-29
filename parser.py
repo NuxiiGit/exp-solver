@@ -16,12 +16,26 @@ class Parser:
 
     def __init__(self, lexer):
         self.set_lexer(lexer)
+        self.set_precedence({ })
 
     def set_lexer(self, lexer):
         """Assigns a lexer to this parser."""
         self.lexer = iter(lexer)
         self.peeked = None
         self.next()
+
+    def set_precedence(self, ops):
+        """Sets the precedence of parsed """
+        self.ops = ops
+        prec_set = set()
+        precs = []
+        for prec in ops.values():
+            if prec in prec_set:
+                continue
+            precs.append(prec)
+            prec_set.add(prec)
+        self.precs = precs
+        print(self.precs)
 
     def parse(self):
         """Parses the current lexer."""

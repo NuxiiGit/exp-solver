@@ -20,6 +20,7 @@ else:
     #    print("  | number - ", is_number(token))
     #    print("  | ident  - ", is_identifier(token))
     parser = Parser(Lexer(src))
+    parser.set_precedence({ "x" : 1, "+" : 2, "-" : 2 })
     expr = parser.parse()
     print(expr)
     #val = evaluate_expr(expr, { "a" : 12, "b" : -19.3 })
