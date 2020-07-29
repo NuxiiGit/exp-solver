@@ -1,12 +1,14 @@
-class Token:
-    """Represents a token and its infix value."""
+def is_symbol(self):
+    """Returns whether a token is a kind of reserved symbol."""
+    return self in { "(", ")", "[", "]", "{", "}", "," }
 
-    def __init__(self, node, infix):
-        self.node = node
-        self.infix = infix
+def is_number(self):
+    """Returns whether a token is a numerical value."""
+    return type(self) == float
 
-    def __str__(self):
-        return "[node=" + str(self.node) + ", infix=" + str(self.infix) + "]"
+def is_identifier(self):
+    """Returns whether a token is an identifier."""
+    return not is_number(self) and not is_symbol(self)
 
 class Lexer:
     """Splits a string into individual smaller tokens."""
@@ -35,26 +37,26 @@ class Lexer:
         self.advance_while(str.isspace)
         self.clear()
         x = self.chr()
-        if x.isalpha():
+        if x.isalpha() or x == "'":
             # consume identifier
-            self.advance_while(lambda x : x.isalpha() or x == "'")
-            return Token(self.substr(), False)
+            self.advance_while(lambda x: x.isalpha() or x == "'")
+            return self.substr()
         elif x.isdigit():
             # consume real number
             self.advance_while(str.isdigit)
             if self.sat(lambda x: x == "."):
                 self.advance()
                 self.advance_while(str.isdigit)
-            return Token(float(self.substr()), False)
+            return float(self.substr())
         else:
             # consume operators
             self.advance()
             if x == '.' and self.sat(str.isdigit):
                 # fractional numbers
                 self.advance_while(str.isdigit)
-                return Token(float(self.substr()), False)
+                return float(self.substr())
             else:
-                return Token(x, True)
+                return x
 
     def advance_while(self, p):
         """Advances whilst some predicate `p` is true."""

@@ -1,4 +1,4 @@
-from lexer import Lexer
+from lexer import *
 from parser import Parser
 from evaluator import *
 
@@ -13,8 +13,14 @@ if argument_count == 0:
     print("  \"2 + 5\"")
 else:
     src = argument[0]
-    parser = Parser(Lexer(src))
-    expr = parser.parse()
-    val = evaluate_expr(expr, { "a" : 12, "b" : -19.3 })
-    print("expr:   " + show_expr(expr))
-    print("result: " + str(val))
+    lexer = Lexer(src)
+    for token in lexer:
+        print(token)
+        print("  | symbol - ", is_symbol(token))
+        print("  | number - ", is_number(token))
+        print("  | ident  - ", is_identifier(token))
+    #parser = Parser(Lexer(src))
+    #expr = parser.parse()
+    #val = evaluate_expr(expr, { "a" : 12, "b" : -19.3 })
+    #print("expr:   " + show_expr(expr))
+    #print("result: " + str(val))
