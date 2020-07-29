@@ -35,9 +35,9 @@ class Lexer:
         self.advance_while(str.isspace)
         self.clear()
         x = self.chr()
-        if x.isalpha() or x == "_":
+        if x.isalpha():
             # consume identifier
-            self.advance_while(lambda x : x.isalpha() or x.isdigit() or x in { "'", "_" })
+            self.advance_while(lambda x : x.isalpha() or x == "'")
             return Token(self.substr(), False)
         elif x.isdigit():
             # consume real number
