@@ -33,7 +33,7 @@ class Parser:
             paren_close = { "(" : ")", "[" : "]", "{" : "}" }[token]
             if self.advance(lambda x: x == paren_close) != None:
                 return []
-            expr = self.parse_expr_list()
+            expr = self.parse_list()
             self.expects(lambda x: x == paren_close, "expected closing parenthesis in grouping")
             return expr
         else:
