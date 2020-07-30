@@ -59,24 +59,11 @@ class Parser:
         """Parses a grouping of expressions."""
         if (token := self.advance(lambda x: x in { "(", "[", "{" })) != None:
             paren_close = { "(" : ")", "[" : "]", "{" : "}" }[token]
-            if self.advance(lambda x: x == paren_close) != None:
-                return []
-            expr = self.parse_list()
+            expr = self.parse()
             self.expects(lambda x: x == paren_close, "expected closing parenthesis in grouping")
             return expr
         else:
             return self.expects(lambda x: is_identifier(x) or is_number(x), "expected terminal value")
-
-    def parse_list(self):
-        """Parses a list of expressions."""
-        expr = self.parse()
-        if not self.sat(lambda x: x == ","):
-            return expr
-        exprs = [expr]
-        while self.advance(lambda x: x == ",") != None:
-           expr = self.parse()
-           exprs.append(expr)
-        return exprs
 
     def expects(self, p, on_err):
         """Throws an error if the predicate does not hold for the next token."""
