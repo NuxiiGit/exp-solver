@@ -10,6 +10,9 @@ class Node:
     def __str__(self):
         return "{ op : " + str(self.op) + " , arg : " + str(self.arg) + " }"
 
+def infix(s):
+    return "_" + s + "_"
+
 class Parser:
     """Parses an array of tokens into a syntax tree."""
 
@@ -48,7 +51,7 @@ class Parser:
         else:
             prec = precs[ind]
             expr = self.parse_binary(ind + 1)
-            while (token := self.advance(lambda x: x in ops and ops[x] == prec)) != None:
+            while (token := self.advance(lambda x: infix(x) in ops and ops[infix(x)] == prec)) != None:
                 expr = Node(token, expr, self.parse_binary(ind + 1))
             return expr
 
@@ -72,52 +75,6 @@ class Parser:
         exprs = [expr]
         while self.advance(lambda x: x == ",") != None:
            expr = self.parse()
-           exprs.append(expr)
-        return exprs
-
-    def parse_expr_equality(self):
-        """Parses `=` binary operator."""
-        expr = self.parse_expr_addition()
-        while (token := self.advance(lambda x: x.node == "=")) != None:
-            expr = Op("-", expr, self.parse_expr_addition())
-        return expr
-
-    def parse_expr_addition(self):
-        """Parses `+` and `-` binary operators."""
-        expr = self.parse_expr_apply()
-        while (token := self.advance(lambda x: x.node in { "+", "-" })) != None:
-            expr = Op(token.node, expr, self.parse_expr_apply())
-        return expr
-
-    def parse_expr_apply(self):
-        """Parses the application of two values."""
-        expr = self.parse_expr_grouping()
-        while self.sat(lambda x: x.infix == False or x.node in { "(", "[", "{", "!" }):
-            arg = self.parse_expr_grouping()
-            expr = Op("*", expr, arg)
-        return expr
-
-    def parse_expr_grouping(self):
-        """Parses a grouping of expressions."""
-        token = self.expects(lambda _: True, "malformed expression")
-        if token.node in { "(", "[", "{" }:
-            paren_close = { "(" : ")", "[" : "]", "{" : "}" }[token.node]
-            if self.advance(lambda x: x.node == paren_close) != None:
-                return []
-            expr = self.parse_expr_list()
-            self.expects(lambda x: x.node == paren_close, "expected closing parenthesis in grouping")
-            return expr
-        else:
-            return token.node
-
-    def parse_expr_list(self):
-        """Parses a list of expressions."""
-        expr = self.parse_expr()
-        if not self.sat(lambda x: x.node == ","):
-            return expr
-        exprs = [expr]
-        while self.advance(lambda x: x.node == ",") != None:
-           expr = self.parse_expr()
            exprs.append(expr)
         return exprs
 
