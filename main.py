@@ -1,6 +1,6 @@
 from lexer import *
 from parser import Parser
-from evaluator import *
+#from evaluator import *
 
 import sys
 

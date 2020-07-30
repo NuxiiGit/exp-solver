@@ -1,15 +1,14 @@
 from lexer import is_number, is_symbol, is_identifier
 
-class Op:
-    """Binary operation."""
+class Node:
+    """Represents the abstract syntax of a function (`op`) being applied to an argument (`arg`)."""
 
-    def __init__(self, op, l, r):
+    def __init__(self, op, *arg):
         self.op = op
-        self.l = l
-        self.r = r
+        self.arg = arg
 
     def __str__(self):
-        return "[ op='" + str(self.op) + "' , l='" + str(self.l) + "' , r='" + str(self.r) + "' ]"
+        return "{ op : " + str(self.op) + " , arg : " + str(self.arg) + " }"
 
 class Parser:
     """Parses an array of tokens into a syntax tree."""
@@ -38,7 +37,20 @@ class Parser:
 
     def parse(self):
         """Parses the current lexer."""
-        return self.parse_grouping()
+        return self.parse_binary(0)
+
+    def parse_binary(self, ind):
+        """Parses a binary operation."""
+        precs = self.precs
+        ops = self.ops
+        if ind >= len(precs):
+            return self.parse_grouping()
+        else:
+            prec = precs[ind]
+            expr = self.parse_binary(ind + 1)
+            while (token := self.advance(lambda x: x in ops and ops[x] == prec)) != None:
+                expr = Node(token, expr, self.parse_binary(ind + 1))
+            return expr
 
     def parse_grouping(self):
         """Parses a grouping of expressions."""
