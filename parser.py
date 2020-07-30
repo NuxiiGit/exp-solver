@@ -3,12 +3,12 @@ from lexer import is_number, is_symbol, is_identifier
 class Node:
     """Represents the abstract syntax of a function (`op`) being applied to an argument (`arg`)."""
 
-    def __init__(self, op, *arg):
+    def __init__(self, op, *args):
         self.op = op
-        self.arg = arg
+        self.args = args
 
     def __str__(self):
-        return "{ op : " + str(self.op) + " , arg : " + str(self.arg) + " }"
+        return "{ op : " + str(self.op) + " , args : " + str(self.args) + " }"
 
 def infix(s):
     return "_" + s + "_"
