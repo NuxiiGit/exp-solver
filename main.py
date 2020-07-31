@@ -1,6 +1,6 @@
 from lexer import *
 from parser import Parser
-#from evaluator import *
+from evaluator import *
 
 import sys
 
@@ -14,15 +14,10 @@ if argument_count == 0:
 else:
     src = argument[0]
     lexer = Lexer(src)
-    #for token in lexer:
-    #    print(token)
-    #    print("  | symbol - ", is_symbol(token))
-    #    print("  | number - ", is_number(token))
-    #    print("  | ident  - ", is_identifier(token))
     parser = Parser(Lexer(src))
     parser.set_precedence({ "_+_" : 2, "_-_" : 2 })
     expr = parser.parse()
-    print(expr)
-    #val = evaluate_expr(expr, { "a" : 12, "b" : -19.3 })
+    evaluator = Evaluator()
+    print(evaluator.evaluate(expr))
     #print("expr:   " + show_expr(expr))
     #print("result: " + str(val))
