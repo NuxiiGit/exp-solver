@@ -1,15 +1,3 @@
-def is_symbol(self):
-    """Returns whether a token is a kind of reserved symbol."""
-    return self in { "(", ")", "[", "]", "{", "}", ",", "_" }
-
-def is_number(self):
-    """Returns whether a token is a numerical value."""
-    return type(self) == float
-
-def is_identifier(self):
-    """Returns whether a token is an identifier."""
-    return type(self) == str and not is_symbol(self)
-
 class Lexer:
     """Splits a string into individual smaller tokens."""
 
@@ -37,9 +25,9 @@ class Lexer:
         self.advance_while(str.isspace)
         self.clear()
         x = self.chr()
-        if x.isalpha() or x == "'":
+        if x.isalpha():
             # consume identifier
-            self.advance_while(lambda x: x.isalpha() or x == "'")
+            self.advance_while(str.isalpha)
             return self.substr()
         elif x.isdigit():
             # consume real number

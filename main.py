@@ -1,6 +1,6 @@
-from lexer import *
-from parser import Parser
-from evaluator import *
+import lex
+#from parser import Parser
+#from evaluator import *
 
 import sys
 
@@ -13,11 +13,13 @@ if argument_count == 0:
     print("  \"2 + 5\"")
 else:
     src = argument[0]
-    lexer = Lexer(src)
-    parser = Parser(Lexer(src))
-    parser.set_precedence({ "_+_" : 2, "_-_" : 2 })
-    expr = parser.parse()
-    evaluator = Evaluator()
-    print(evaluator.evaluate(expr))
+    lexer = lex.Lexer(src)
+    for token in lexer:
+        print(token)
+    #parser = Parser(Lexer(src))
+    #parser.set_precedence({ "_+_" : 2, "_-_" : 2 })
+    #expr = parser.parse()
+    #evaluator = Evaluator()
+    #print(evaluator.evaluate(expr))
     #print("expr:   " + show_expr(expr))
     #print("result: " + str(val))
