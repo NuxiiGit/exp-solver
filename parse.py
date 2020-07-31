@@ -23,13 +23,18 @@ class Parser:
 
     def parse(self):
         """Parses the current lexer."""
-        return self.parse_grouping()
+        return self.parse_addition()
 
     def parse_addition(self):
         """Parses `+` and `-` binary operators."""
         expr = self.parse_grouping()
         while (token := self.advance(lambda x: x in { "+", "-" })) != None:
-            expr = Node(lambda arg: arg[0] + arg[1], [expr, self.parse_grouping()])
+            f = None
+            if token == "+":
+                f = lambda arg: arg[0] + arg[1]
+            else:
+                f = lambda arg: arg[0] - arg[1]
+            expr = Node(f, [expr, self.parse_grouping()])
         return expr
 
     def parse_grouping(self):
