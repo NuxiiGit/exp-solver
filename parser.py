@@ -1,5 +1,9 @@
 from lexer import is_number, is_symbol, is_identifier
 
+class ParseError(Exception):
+    """Represents a parser error case."""
+    pass
+
 class Node:
     """Represents the abstract syntax of a function (`op`) being applied to an argument (`arg`)."""
 
@@ -99,4 +103,4 @@ class Parser:
 
     def error(self, msg):
         """Raises a parser error with this message."""
-        raise Exception(msg)
+        raise ParseError(msg)
