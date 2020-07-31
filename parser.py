@@ -51,7 +51,7 @@ class Parser:
         else:
             prec = precs[ind]
             expr = self.parse_binary(ind + 1)
-            while (token := self.advance(lambda x: infix(x) in ops and ops[infix(x)] == prec)) != None:
+            while (token := self.advance(lambda x: is_identifier(x) and infix(x) in ops and ops[infix(x)] == prec)) != None:
                 expr = Node(token, expr, self.parse_binary(ind + 1))
             return expr
 
