@@ -1,5 +1,5 @@
 import lex
-#from parser import Parser
+import parse
 #from evaluator import *
 
 import sys
@@ -14,11 +14,9 @@ if argument_count == 0:
 else:
     src = argument[0]
     lexer = lex.Lexer(src)
-    for token in lexer:
-        print(token)
-    #parser = Parser(Lexer(src))
-    #parser.set_precedence({ "_+_" : 2, "_-_" : 2 })
-    #expr = parser.parse()
+    parser = parse.Parser(lexer)
+    expr = parser.parse()
+    print(expr)
     #evaluator = Evaluator()
     #print(evaluator.evaluate(expr))
     #print("expr:   " + show_expr(expr))

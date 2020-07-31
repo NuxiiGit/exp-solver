@@ -1,5 +1,3 @@
-from lexer import is_number, is_symbol, is_identifier
-
 class ParseError(Exception):
     """Represents a parser error case."""
     pass
@@ -9,20 +7,13 @@ class Node:
 
     def __init__(self, op, *args):
         self.op = op
-        self.args = args
-
-    def __str__(self):
-        return "{ op : " + str(self.op) + " , args : " + str(self.args) + " }"
-
-def infix(s):
-    return "_" + s + "_"
+        self.arg = args
 
 class Parser:
     """Parses an array of tokens into a syntax tree."""
 
     def __init__(self, lexer):
         self.set_lexer(lexer)
-        self.set_precedence({ })
 
     def set_lexer(self, lexer):
         """Assigns a lexer to this parser."""
@@ -30,34 +21,9 @@ class Parser:
         self.peeked = None
         self.next()
 
-    def set_precedence(self, ops):
-        """Sets the precedence of operators."""
-        self.ops = ops
-        prec_set = set()
-        precs = []
-        for prec in ops.values():
-            if prec in prec_set:
-                continue
-            precs.append(prec)
-            prec_set.add(prec)
-        self.precs = precs
-
     def parse(self):
         """Parses the current lexer."""
-        return self.parse_binary(0)
-
-    def parse_binary(self, ind):
-        """Parses a binary operation."""
-        precs = self.precs
-        ops = self.ops
-        if ind >= len(precs):
-            return self.parse_grouping()
-        else:
-            prec = precs[ind]
-            expr = self.parse_binary(ind + 1)
-            while (token := self.advance(lambda x: is_identifier(x) and infix(x) in ops and ops[infix(x)] == prec)) != None:
-                expr = Node(token, expr, self.parse_binary(ind + 1))
-            return expr
+        return self.parse_grouping()
 
     def parse_grouping(self):
         """Parses a grouping of expressions."""
@@ -67,14 +33,14 @@ class Parser:
             self.expects(lambda x: x == paren_close, "expected closing parenthesis in grouping")
             return expr
         else:
-            return self.expects(lambda x: is_identifier(x) or is_number(x), "expected terminal value")
+            return self.expects(lambda x: type(x) == str and x.isalpha() or type(x) == float, "expected terminal value")
 
     def expects(self, p, on_err):
         """Throws an error if the predicate does not hold for the next token."""
         if self.sat(p):
             return self.next()
         else:
-            self.error(on_err)
+            self.error("got '" + str(self.peek()) + "': " + str(on_err))
 
     def advance(self, p):
         """Advances the parser and returns the token if it satisfies the predicate. Otherwise returns `None`."""
