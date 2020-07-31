@@ -1,6 +1,6 @@
 def is_symbol(self):
     """Returns whether a token is a kind of reserved symbol."""
-    return self in { "(", ")", "[", "]", "{", "}", "," }
+    return self in { "(", ")", "[", "]", "{", "}", ",", "_" }
 
 def is_number(self):
     """Returns whether a token is a numerical value."""
@@ -8,7 +8,7 @@ def is_number(self):
 
 def is_identifier(self):
     """Returns whether a token is an identifier."""
-    return not is_number(self) and not is_symbol(self)
+    return type(self) == str and not is_symbol(self)
 
 class Lexer:
     """Splits a string into individual smaller tokens."""
