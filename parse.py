@@ -5,9 +5,9 @@ class ParseError(Exception):
 class Node:
     """Represents the abstract syntax of a function (`op`) being applied to an argument (`arg`)."""
 
-    def __init__(self, op, *args):
+    def __init__(self, op, arg):
         self.op = op
-        self.arg = args
+        self.arg = arg
 
 class Parser:
     """Parses an array of tokens into a syntax tree."""
@@ -24,6 +24,13 @@ class Parser:
     def parse(self):
         """Parses the current lexer."""
         return self.parse_grouping()
+
+    def parse_addition(self):
+        """Parses `+` and `-` binary operators."""
+        expr = self.parse_grouping()
+        while (token := self.advance(lambda x: x in { "+", "-" })) != None:
+            expr = Node(lambda arg: arg[0] + arg[1], [expr, self.parse_grouping()])
+        return expr
 
     def parse_grouping(self):
         """Parses a grouping of expressions."""
