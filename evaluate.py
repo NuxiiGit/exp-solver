@@ -22,13 +22,18 @@ class Evaluator:
     def evaluate(self, expr):
         """Evaluates the expression."""
         if type(expr) == parse.Node:
-            op = expr.op
-            arg = expr.arg
-            raise EvaluationError("unimplemented")
+            op = self.evaluate(expr.op)
+            arg = self.evaluate(expr.arg)
+            if callable(op):
+                return op(arg)
+            else:
+                return op * arg
         elif type(expr) == str:
             if expr in self.binding:
                 return self.evaluate(self.binding[expr])
             else:
                 raise EvaluationError("unbound identifier '" + str(expr) + "'")
+        elif type(expr) == list:
+            return [self.evaluate(x) for x in expr]
         else:
             return expr

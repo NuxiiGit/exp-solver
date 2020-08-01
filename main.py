@@ -14,8 +14,9 @@ else:
     src = argument[0]
     expr = parse.Parser(src).parse()
     print(expr)
-    #evaluator = evaluate.Evaluator()
-    #evaluator.set_variable("x", 12)
-    #print(evaluator.evaluate(expr))
+    evaluator = evaluate.Evaluator()
+    evaluator.set_variable("plus", lambda arg: arg[0] + arg[1])
+    evaluator.set_variable("neg", lambda arg: -arg)
+    print(evaluator.evaluate(expr))
     #print("expr:   " + show_expr(expr))
     #print("result: " + str(val))
