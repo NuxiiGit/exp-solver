@@ -1,6 +1,6 @@
 import lex
 import parse
-#from evaluator import *
+import evaluator
 
 import sys
 
@@ -16,8 +16,8 @@ else:
     lexer = lex.Lexer(src)
     parser = parse.Parser(lexer)
     expr = parser.parse()
-    print(expr)
-    #evaluator = Evaluator()
-    #print(evaluator.evaluate(expr))
+    evaluator = evaluator.Evaluator()
+    evaluator.set_variable("x", 12)
+    print(evaluator.evaluate(expr))
     #print("expr:   " + show_expr(expr))
     #print("result: " + str(val))

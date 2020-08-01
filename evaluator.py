@@ -1,5 +1,4 @@
-from parser import Node
-from lexer import is_identifier, is_number
+import parse
 
 import math
 
@@ -11,21 +10,25 @@ class Evaluator:
     """Contains a variable binding which is used when evaluating expressions."""
 
     def __init__(self):
-        self.set_binding({ })
+        self.binding = { }
 
-    def set_binding(self, binding):
+    def set_variable(self, ident, value):
         """Assigns the variable binding for this evaluator."""
-        self.binding = binding
+        if value == None and ident in self.binding:
+            del self.binding[ident]
+        else:
+            self.binding[ident] = value
 
     def evaluate(self, expr):
         """Evaluates the expression."""
-        if type(expr) == Node:
+        if type(expr) == parse.Node:
             op = expr.op
-            args = expr.args
+            arg = expr.arg
             raise EvaluationError("unimplemented")
-        elif is_identifier(expr):
-            raise EvaluationError("unimplemented 2")
-        elif is_number(expr):
-            return expr
+        elif type(expr) == str:
+            if expr in self.binding:
+                return self.evaluate(self.binding[expr])
+            else:
+                raise EvaluationError("unbound identifier '" + str(expr) + "'")
         else:
-            raise EvaluationError("unknown value")
+            return expr
