@@ -8,25 +8,21 @@ class Value:
         self.value = value
 
     def __str__(self):
-        return str(self.value)
-
-    def __repr__(self):
-        return self.__str__()
+        if type(self.value) == list:
+            inner = ", ".join([str(x) for x in self.value])
+            return "[" + inner + "]"
+        else:
+            return str(self.value)
 
 class Node:
     """Represents the abstract syntax of a function (`op`) being applied to an argument (`arg`)."""
 
     def __init__(self, op, arg):
-        self.op = op
-        self.arg = arg
+        self.op = Value(op)
+        self.arg = Value(arg)
 
     def __str__(self):
         return "(" + str(self.op) + " " + str(self.arg) + ")"
-
-    def __repr__(self):
-        # good enough, don't care
-        return self.__str__()
-
 
 class EvaluationError(Exception):
     """Represents the case where an expression cannot be evaluated."""

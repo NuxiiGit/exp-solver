@@ -19,7 +19,7 @@ class Parser:
 
     def parse(self):
         """Parses the current lexer."""
-        return self.parse_addition()
+        return evaluate.Value(self.parse_addition())
 
     def parse_addition(self):
         """Parses `+` and `-` binary operators."""
@@ -40,8 +40,7 @@ class Parser:
             self.expects(lambda x: x == paren_close, "expected closing parenthesis in grouping")
             return expr
         else:
-            val = self.expects(lambda x: type(x) == str and x.isalpha() or type(x) == float, "expected terminal value")
-            return evaluate.Value(val)
+            return self.expects(lambda x: type(x) == str and x.isalpha() or type(x) == float, "expected terminal value")
 
     def expects(self, p, on_err):
         """Throws an error if the predicate does not hold for the next token."""
