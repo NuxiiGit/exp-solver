@@ -9,6 +9,13 @@ class Node:
         self.op = op
         self.arg = arg
 
+    def __str__(self):
+        return "{ op : " + str(self.op) + " , arg : " + str(self.arg) + " }"
+
+    def __repr__(self):
+        # good enough, don't care
+        return self.__str__()
+
 class Parser:
     """Parses an array of tokens into a syntax tree."""
 
@@ -29,12 +36,11 @@ class Parser:
         """Parses `+` and `-` binary operators."""
         expr = self.parse_grouping()
         while (token := self.advance(lambda x: x in { "+", "-" })) != None:
-            f = None
-            if token == "+":
-                f = lambda arg: arg[0] + arg[1]
-            else:
-                f = lambda arg: arg[0] - arg[1]
-            expr = Node(f, [expr, self.parse_grouping()])
+            l = expr
+            r = self.parse_grouping()
+            if token == "-":
+                r = Node("neg", r)
+            expr = Node("plus", [l, r])
         return expr
 
     def parse_grouping(self):
