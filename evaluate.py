@@ -1,28 +1,21 @@
 import math
 import functools
 
-class Value:
-    """Represents all possible evaluation values."""
-
-    def __init__(self, value):
-        self.value = value
-
-    def __str__(self):
-        if type(self.value) == list:
-            inner = ", ".join([str(x) for x in self.value])
-            return "[" + inner + "]"
-        else:
-            return str(self.value)
-
 class Node:
     """Represents the abstract syntax of a function (`op`) being applied to an argument (`arg`)."""
 
     def __init__(self, op, arg):
-        self.op = Value(op)
-        self.arg = Value(arg)
+        self.op = op
+        self.arg = arg
 
     def __str__(self):
-        return "(" + str(self.op) + " " + str(self.arg) + ")"
+        def show_value(value):
+            if type(value) == list:
+                inner = ", ".join([str(x) for x in value])
+                return "[" + inner + "]"
+            else:
+                return str(value)
+        return "(" + show_value(self.op) + " " + show_value(self.arg) + ")"
 
 class EvaluationError(Exception):
     """Represents the case where an expression cannot be evaluated."""

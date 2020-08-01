@@ -19,7 +19,7 @@ class Parser:
 
     def parse(self):
         """Parses the current lexer."""
-        return evaluate.Value(self.parse_addition())
+        return self.parse_addition()
 
     def parse_addition(self):
         """Parses `+` and `-` binary operators."""
