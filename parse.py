@@ -1,5 +1,20 @@
-import evaluate
 import lex
+
+class Node:
+    """Represents the abstract syntax of a function (`op`) being applied to an argument (`arg`)."""
+
+    def __init__(self, op, arg):
+        self.op = op
+        self.arg = arg
+
+    def __str__(self):
+        def show_value(value):
+            if type(value) == list:
+                inner = ", ".join([str(x) for x in value])
+                return "[" + inner + "]"
+            else:
+                return str(value)
+        return "(" + show_value(self.op) + " " + show_value(self.arg) + ")"
 
 class ParseError(Exception):
     """Represents a parser error case."""
@@ -28,8 +43,8 @@ class Parser:
             l = expr
             r = self.parse_grouping()
             if token == "-":
-                r = evaluate.Node("neg", r)
-            expr = evaluate.Node("plus", [l, r])
+                r = Node("neg", r)
+            expr = Node("plus", [l, r])
         return expr
 
     def parse_grouping(self):

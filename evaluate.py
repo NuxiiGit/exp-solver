@@ -1,21 +1,6 @@
+import parse
 import math
 import functools
-
-class Node:
-    """Represents the abstract syntax of a function (`op`) being applied to an argument (`arg`)."""
-
-    def __init__(self, op, arg):
-        self.op = op
-        self.arg = arg
-
-    def __str__(self):
-        def show_value(value):
-            if type(value) == list:
-                inner = ", ".join([str(x) for x in value])
-                return "[" + inner + "]"
-            else:
-                return str(value)
-        return "(" + show_value(self.op) + " " + show_value(self.arg) + ")"
 
 class EvaluationError(Exception):
     """Represents the case where an expression cannot be evaluated."""
@@ -36,7 +21,7 @@ class Evaluator:
 
     def evaluate(self, expr):
         """Evaluates the expression."""
-        if type(expr) == Node:
+        if type(expr) == parse.Node:
             op = expr.op
             arg = expr.arg
             raise EvaluationError("unimplemented")
