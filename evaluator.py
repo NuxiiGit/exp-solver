@@ -1,6 +1,19 @@
 import parse
 
 import math
+import functools
+
+class Value:
+    """Represents all possible evaluation values."""
+
+    def __init__(self, value):
+        self.value = value
+
+    def __str__(self):
+        return str(self.value)
+
+    def __repr__(self):
+        return self.__str__()
 
 class EvaluationError(Exception):
     """Represents the case where an expression cannot be evaluated."""
