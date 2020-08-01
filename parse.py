@@ -1,26 +1,15 @@
+import evaluate
+import lex
+
 class ParseError(Exception):
     """Represents a parser error case."""
     pass
 
-class Node:
-    """Represents the abstract syntax of a function (`op`) being applied to an argument (`arg`)."""
-
-    def __init__(self, op, arg):
-        self.op = op
-        self.arg = arg
-
-    def __str__(self):
-        return "{ op : " + str(self.op) + " , arg : " + str(self.arg) + " }"
-
-    def __repr__(self):
-        # good enough, don't care
-        return self.__str__()
-
 class Parser:
     """Parses an array of tokens into a syntax tree."""
 
-    def __init__(self, lexer):
-        self.set_lexer(lexer)
+    def __init__(self, s):
+        self.set_lexer(lex.Lexer(s))
 
     def set_lexer(self, lexer):
         """Assigns a lexer to this parser."""
@@ -39,8 +28,8 @@ class Parser:
             l = expr
             r = self.parse_grouping()
             if token == "-":
-                r = Node("neg", r)
-            expr = Node("plus", [l, r])
+                r = evaluate.Node("neg", r)
+            expr = evaluate.Node("plus", [l, r])
         return expr
 
     def parse_grouping(self):
@@ -51,7 +40,8 @@ class Parser:
             self.expects(lambda x: x == paren_close, "expected closing parenthesis in grouping")
             return expr
         else:
-            return self.expects(lambda x: type(x) == str and x.isalpha() or type(x) == float, "expected terminal value")
+            val = self.expects(lambda x: type(x) == str and x.isalpha() or type(x) == float, "expected terminal value")
+            return evaluate.Value(val)
 
     def expects(self, p, on_err):
         """Throws an error if the predicate does not hold for the next token."""
