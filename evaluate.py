@@ -3,11 +3,23 @@ import math
 import functools
 import numbers
 
+def assert_lists_equal_length(a, b):
+    len_a = len(a)
+    len_b = len(b)
+    if len_a != len_b:
+        raise ArithmeticError("incompatible vector lengths (" + str(len_a) + " and " + str(len_b) + ")")
+    else:
+        return len_a
+
 def builtin_plus(x):
-    """Adds two mathematical objects together."""
+    """Adds a list of mathematical objects."""
     def binary_plus(a, b):
         if isinstance(a, list) and isinstance(b, list):
-            return 0
+            n = assert_lists_equal_length(a, b)
+            xs = []
+            for i in range(0, n):
+                xs.append(binary_plus(a[i], b[i]))
+            return xs
         else:
             return a + b
     if isinstance(x, list):
@@ -20,9 +32,9 @@ def builtin_plus(x):
     else:
         return x
 
-def builtin_neg(arg):
-    """Negates a mathematical object."""
-    return -arg
+def builtin_prod(x):
+    """Multiplies a list of mathematical objects."""
+    pass
 
 class Evaluator:
     """Contains a variable binding which is used when evaluating expressions."""
@@ -31,7 +43,7 @@ class Evaluator:
         self.binding = { }
         self.builtins = {
             "plus" : builtin_plus,
-            "neg" : builtin_neg,
+            "neg" : -1,
             "i" : 1j
         }
 
