@@ -6,6 +6,18 @@ class EvaluationError(Exception):
     """Represents the case where an expression cannot be evaluated."""
     pass
 
+def eval_add(arg):
+    """Adds two mathematical objects together."""
+    if type(arg) == list:
+        if len(arg) == 0:
+            return 0
+        acc = arg[0]
+        for item in arg[1:]:
+            acc = acc + item
+        return acc
+    else:
+        return arg
+
 class Evaluator:
     """Contains a variable binding which is used when evaluating expressions."""
 
@@ -31,6 +43,8 @@ class Evaluator:
         elif type(expr) == str:
             if expr in self.binding:
                 return self.evaluate(self.binding[expr])
+            elif expr == "plus":
+                return eval_add
             else:
                 raise EvaluationError("unbound identifier '" + str(expr) + "'")
         elif type(expr) == list:
