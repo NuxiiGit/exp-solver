@@ -6,7 +6,7 @@ class EvaluationError(Exception):
     """Represents the case where an expression cannot be evaluated."""
     pass
 
-def eval_add(arg):
+def builtin_plus(arg):
     """Adds two mathematical objects together."""
     if type(arg) == list:
         if len(arg) == 0:
@@ -18,11 +18,20 @@ def eval_add(arg):
     else:
         return arg
 
+def builtin_neg(arg):
+    """Negates a mathematical object."""
+    return -arg
+
 class Evaluator:
     """Contains a variable binding which is used when evaluating expressions."""
 
     def __init__(self):
         self.binding = { }
+        self.builtins = {
+            "plus" : builtin_plus,
+            "neg" : builtin_neg,
+            "i" : 1j
+        }
 
     def set_variable(self, ident, value):
         """Assigns the variable binding for this evaluator."""
@@ -43,8 +52,8 @@ class Evaluator:
         elif type(expr) == str:
             if expr in self.binding:
                 return self.evaluate(self.binding[expr])
-            elif expr == "plus":
-                return eval_add
+            elif expr in self.builtins:
+                return self.evaluate(self.builtins[expr])
             else:
                 raise EvaluationError("unbound identifier '" + str(expr) + "'")
         elif type(expr) == list:
