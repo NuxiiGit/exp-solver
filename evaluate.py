@@ -34,7 +34,26 @@ def builtin_plus(x):
 
 def builtin_prod(x):
     """Multiplies a list of mathematical objects."""
-    pass
+    def binary_prod(a, b):
+        if isinstance(a, list) and isinstance(b, list):
+            n = assert_lists_equal_length(a, b)
+            dot = 0
+            for i in range(0, n):
+                dot = dot + binary_prod(a[i], b[i])
+            return dot
+        elif isinstance(b, list):
+            return [a * x for x in b]
+        else:
+            return a * b
+    if isinstance(x, list):
+        if len(x) == 0:
+            return 1
+        acc = x[0]
+        for item in x[1:]:
+            acc = binary_prod(acc, item)
+        return acc
+    else:
+        return x
 
 class Evaluator:
     """Contains a variable binding which is used when evaluating expressions."""
@@ -62,7 +81,7 @@ class Evaluator:
             if callable(op):
                 return op(arg)
             else:
-                return op * arg
+                return builtin_prod([op, arg])
         elif type(expr) == str:
             if expr in self.binding:
                 return self.evaluate(self.binding[expr])
