@@ -1,22 +1,30 @@
 import parse
 import math
 import functools
+import numbers
 
 class EvaluationError(Exception):
     """Represents the case where an expression cannot be evaluated."""
     pass
 
-def builtin_plus(arg):
+def builtin_plus(x):
     """Adds two mathematical objects together."""
-    if type(arg) == list:
-        if len(arg) == 0:
+    def binary_plus(a, b):
+        if type(a) == list and type(b) == list:
             return 0
-        acc = arg[0]
-        for item in arg[1:]:
-            acc = acc + item
+        elif isinstance(a, numbers.Number) and isinstance(b, numbers.Number):
+            return a + b
+        else:
+            raise EvaluationError("plus is not defined for types ''")
+    if type(x) == list:
+        if len(x) == 0:
+            return 0
+        acc = x[0]
+        for item in x[1:]:
+            acc = binary_plus(acc, item)
         return acc
     else:
-        return arg
+        return x
 
 def builtin_neg(arg):
     """Negates a mathematical object."""
