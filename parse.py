@@ -1,5 +1,9 @@
 import lex
 
+def is_terminal(x):
+    """Returns whether a token is a terminal value."""
+    return type(x) == str and x.isalpha() or type(x) == float
+
 class Node:
     """Represents the abstract syntax of a function (`op`) being applied to an argument (`arg`)."""
 
@@ -34,13 +38,20 @@ class Parser:
 
     def parse_addition(self):
         """Parses `+` and `-` binary operators."""
-        expr = self.parse_grouping()
+        expr = self.parse_apply()
         while (token := self.advance(lambda x: x in { "+", "-" })) != None:
             l = expr
-            r = self.parse_grouping()
+            r = self.parse_apply()
             if token == "-":
                 r = Node("neg", r)
             expr = Node("plus", [l, r])
+        return expr
+
+    def parse_apply(self):
+        """Parses function application and implicit multiplication."""
+        expr = self.parse_grouping()
+        while self.sat(lambda x: is_terminal(x) or x in { "(", "[", "{" }):
+            expr = Node(expr, self.parse_grouping())
         return expr
 
     def parse_grouping(self):
@@ -53,7 +64,7 @@ class Parser:
             self.expects(lambda x: x == paren_close, "expected closing parenthesis in grouping")
             return expr
         else:
-            return self.expects(lambda x: type(x) == str and x.isalpha() or type(x) == float, "expected terminal value")
+            return self.expects(is_terminal, "expected terminal value")
 
     def parse_vector(self):
         """Parses a list of expressions."""
