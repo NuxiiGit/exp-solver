@@ -16,10 +16,6 @@ class Node:
                 return str(value)
         return "(" + show_value(self.op) + " " + show_value(self.arg) + ")"
 
-class ParseError(Exception):
-    """Represents a parser error case."""
-    pass
-
 class Parser:
     """Parses an array of tokens into a syntax tree."""
 
@@ -51,11 +47,22 @@ class Parser:
         """Parses a grouping of expressions."""
         if (token := self.advance(lambda x: x in { "(", "[", "{" })) != None:
             paren_close = { "(" : ")", "[" : "]", "{" : "}" }[token]
-            expr = self.parse()
+            expr = self.parse_vector()
             self.expects(lambda x: x == paren_close, "expected closing parenthesis in grouping")
             return expr
         else:
             return self.expects(lambda x: type(x) == str and x.isalpha() or type(x) == float, "expected terminal value")
+
+    def parse_vector(self):
+        """Parses a list of expressions."""
+        expr = self.parse()
+        if not self.sat(lambda x: x == ","):
+            return expr
+        exprs = [expr]
+        while self.advance(lambda x: x == ",") != None:
+            expr = self.parse()
+            exprs.append(expr)
+        return exprs
 
     def expects(self, p, on_err):
         """Throws an error if the predicate does not hold for the next token."""
@@ -91,4 +98,4 @@ class Parser:
 
     def error(self, msg):
         """Raises a parser error with this message."""
-        raise ParseError(msg)
+        raise SyntaxError(msg)

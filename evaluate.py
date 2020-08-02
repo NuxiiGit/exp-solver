@@ -3,20 +3,14 @@ import math
 import functools
 import numbers
 
-class EvaluationError(Exception):
-    """Represents the case where an expression cannot be evaluated."""
-    pass
-
 def builtin_plus(x):
     """Adds two mathematical objects together."""
     def binary_plus(a, b):
-        if type(a) == list and type(b) == list:
+        if isinstance(a, list) and isinstance(b, list):
             return 0
-        elif isinstance(a, numbers.Number) and isinstance(b, numbers.Number):
-            return a + b
         else:
-            raise EvaluationError("plus is not defined for types ''")
-    if type(x) == list:
+            return a + b
+    if isinstance(x, list):
         if len(x) == 0:
             return 0
         acc = x[0]
@@ -63,7 +57,7 @@ class Evaluator:
             elif expr in self.builtins:
                 return self.evaluate(self.builtins[expr])
             else:
-                raise EvaluationError("unbound identifier '" + str(expr) + "'")
+                raise LookupError("unbound identifier '" + str(expr) + "'")
         elif type(expr) == list:
             return [self.evaluate(x) for x in expr]
         else:
