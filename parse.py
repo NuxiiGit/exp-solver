@@ -34,11 +34,16 @@ class Parser:
 
     def parse(self):
         """Parses the current lexer."""
-        return self.parse_addition()
+        return self.parse_equality()
 
     def parse_equality(self):
         """Parses `=` operator."""
-        pass
+        expr = self.parse_addition()
+        while self.advance(lambda x: x == "=") != None:
+            l = expr
+            r = Node("neg", self.parse_addition())
+            expr = Node("plus", [l, r])
+        return expr
 
     def parse_addition(self):
         """Parses `+` and `-` binary operators."""
