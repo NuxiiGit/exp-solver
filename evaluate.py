@@ -62,9 +62,17 @@ def op_neg(x):
 def op_inv(x):
     """Finds the inverse of a mathematical object."""
     if isinstance(x, list):
-        return [1 / a for a in x]
+        return [op_inv(a) for a in x]
     else:
         return 1 / x
+
+def op_fact(x):
+    if isinstance(x, list):
+        return [op_fact(a) for a in x]
+    elif isinstance(x, complex):
+        raise ArithmeticError("complex factorials are not supported")
+    else:
+        return math.gamma(x + 1)
 
 class Evaluator:
     """Contains a variable binding which is used when evaluating expressions."""
@@ -76,6 +84,7 @@ class Evaluator:
             "prod" : op_prod,
             "neg" : op_neg,
             "inv" : op_inv,
+            "fact" : op_fact,
             "i" : 1j
         }
 
