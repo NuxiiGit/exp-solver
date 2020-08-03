@@ -91,8 +91,15 @@ class Parser:
 
     def parse_explicit_apply(self):
         """Parses explicit function application."""
-        expr = self.parse_grouping()
+        expr = self.parse_subtext()
         while self.sat(lambda x: x in { "(", "[", "{" }):
+            expr = Node(expr, self.parse_subtext())
+        return expr
+
+    def parse_subtext(self):
+        """Parses subtext `_` operator."""
+        expr = self.parse_grouping()
+        while self.advance(lambda x: x == "_") != None:
             expr = Node(expr, self.parse_grouping())
         return expr
 
