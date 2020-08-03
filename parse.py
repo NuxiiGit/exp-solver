@@ -49,14 +49,22 @@ class Parser:
 
     def parse_multiplication(self):
         """Parses `*` and `/` binary operators."""
-        expr = self.parse_apply()
+        expr = self.parse_unary()
         while (token := self.advance(lambda x: x in { "*", "/" })) != None:
             l = expr
-            r = self.parse_apply()
+            r = self.parse_unary()
             if token == "/":
                 r = Node("inv", r)
             expr = Node("prod", [l, r])
         return expr
+
+    def parse_unary(self):
+        """Parses `-` and `+` unary operators."""
+        if (token := self.advance(lambda x: x in { "+", "-" })) != None:
+            if token == "-":
+                return Node("neg", self.parse_unary())
+            return self.parse_unary()
+        return self.parse_apply()
 
     def parse_apply(self):
         """Parses function application and implicit multiplication."""
