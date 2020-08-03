@@ -36,6 +36,10 @@ class Parser:
         """Parses the current lexer."""
         return self.parse_addition()
 
+    def parse_equality(self):
+        """Parses `=` operator."""
+        pass
+
     def parse_addition(self):
         """Parses `+` and `-` binary operators."""
         expr = self.parse_multiplication()
