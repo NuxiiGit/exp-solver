@@ -100,7 +100,11 @@ class Evaluator:
             "fact" : op_fact,
             "log" : op_log,
             "ln" : op_log(math.e),
-            "i" : 1j
+            "i" : 1j,
+            "e" : math.e,
+            "pi" : math.pi,
+            "tau" : 2 * math.pi,
+            "phi" : (1 + 5 ** 0.5) / 2
         }
 
     def set_variable(self, ident, value):
