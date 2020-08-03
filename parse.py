@@ -64,12 +64,19 @@ class Parser:
             if token == "-":
                 return Node("neg", self.parse_unary())
             return self.parse_unary()
-        return self.parse_apply()
+        return self.parse_implicit_apply()
 
-    def parse_apply(self):
-        """Parses function application and implicit multiplication."""
+    def parse_implicit_apply(self):
+        """Parses implicit function application and multiplication."""
+        expr = self.parse_explicit_apply()
+        while self.sat(lambda x: is_terminal(x)):
+            expr = Node(expr, self.parse_explicit_apply())
+        return expr
+
+    def parse_explicit_apply(self):
+        """Parses explicit function application."""
         expr = self.parse_grouping()
-        while self.sat(lambda x: is_terminal(x) or x in { "(", "[", "{" }):
+        while self.sat(lambda x: x in { "(", "[", "{" }):
             expr = Node(expr, self.parse_grouping())
         return expr
 
