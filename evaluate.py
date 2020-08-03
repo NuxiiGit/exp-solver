@@ -59,6 +59,13 @@ def op_neg(x):
     """Negates a mathematical object."""
     return op_prod([-1, x])
 
+def op_inv(x):
+    """Finds the inverse of a mathematical object."""
+    if isinstance(x, list):
+        return [1 / a for a in x]
+    else:
+        return 1 / x
+
 class Evaluator:
     """Contains a variable binding which is used when evaluating expressions."""
 
@@ -68,6 +75,7 @@ class Evaluator:
             "plus" : op_plus,
             "prod" : op_prod,
             "neg" : op_neg,
+            "inv" : op_inv,
             "i" : 1j
         }
 
