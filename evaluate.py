@@ -1,5 +1,6 @@
 import parse
 import math
+import cmath
 import functools
 import numbers
 
@@ -75,6 +76,14 @@ def op_fact(x):
     else:
         return math.gamma(x + 1)
 
+def op_log(x):
+    if isinstance(x, list):
+        return [op_log(a) for a in x]
+    elif isinstance(x, complex):
+        return cmath.log(x)
+    else:
+        return math.log(x)
+
 class Evaluator:
     """Contains a variable binding which is used when evaluating expressions."""
 
@@ -86,6 +95,7 @@ class Evaluator:
             "neg" : op_neg,
             "inv" : op_inv,
             "fact" : op_fact,
+            "log" : op_log,
             "i" : 1j
         }
 
