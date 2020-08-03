@@ -68,9 +68,16 @@ class Parser:
 
     def parse_implicit_apply(self):
         """Parses implicit function application and multiplication."""
-        expr = self.parse_explicit_apply()
+        expr = self.parse_unary_postfix()
         while self.sat(lambda x: is_terminal(x)):
-            expr = Node(expr, self.parse_explicit_apply())
+            expr = Node(expr, self.parse_unary_postfix())
+        return expr
+
+    def parse_unary_postfix(self):
+        """Parses `!` unary operator."""
+        expr = self.parse_explicit_apply()
+        while self.advance(lambda x: x == "!") != None:
+            expr = Node("fact", expr)
         return expr
 
     def parse_explicit_apply(self):
