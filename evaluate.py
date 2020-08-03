@@ -83,10 +83,8 @@ def op_log(base):
     def log_with_base(x):
         if isinstance(x, list):
             return [log_with_base(a, base) for a in x]
-        elif isinstance(x, complex):
-            return cmath.log(x, base)
         else:
-            return math.log(x, base)
+            return cmath.log(x, base)
     return log_with_base
 
 class Evaluator:
