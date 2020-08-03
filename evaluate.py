@@ -76,13 +76,18 @@ def op_fact(x):
     else:
         return math.gamma(x + 1)
 
-def op_log(x):
-    if isinstance(x, list):
-        return [op_log(a) for a in x]
-    elif isinstance(x, complex):
-        return cmath.log(x)
-    else:
-        return math.log(x)
+def op_log(base):
+    """Creates a new logarithm function with this base."""
+    if isinstance(base, list):
+        raise ArithmeticError("logarithm bases cannot be vectors")
+    def log_with_base(x):
+        if isinstance(x, list):
+            return [log_with_base(a, base) for a in x]
+        elif isinstance(x, complex):
+            return cmath.log(x, base)
+        else:
+            return math.log(x, base)
+    return log_with_base
 
 class Evaluator:
     """Contains a variable binding which is used when evaluating expressions."""
@@ -96,6 +101,7 @@ class Evaluator:
             "inv" : op_inv,
             "fact" : op_fact,
             "log" : op_log,
+            "ln" : op_log(math.e),
             "i" : 1j
         }
 
