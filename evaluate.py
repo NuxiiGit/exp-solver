@@ -62,6 +62,7 @@ class Evaluator:
         self.binding = { }
         self.builtins = {
             "plus" : builtin_plus,
+            "prod" : builtin_prod,
             "neg" : -1,
             "i" : 1j
         }
