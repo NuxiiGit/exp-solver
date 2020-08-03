@@ -11,7 +11,7 @@ def assert_lists_equal_length(a, b):
     else:
         return len_a
 
-def builtin_plus(x):
+def op_plus(x):
     """Adds a list of mathematical objects."""
     def binary_plus(a, b):
         if isinstance(a, list) and isinstance(b, list):
@@ -32,7 +32,7 @@ def builtin_plus(x):
     else:
         return x
 
-def builtin_prod(x):
+def op_prod(x):
     """Multiplies a list of mathematical objects."""
     def binary_prod(a, b):
         if isinstance(a, list) and isinstance(b, list):
@@ -55,15 +55,19 @@ def builtin_prod(x):
     else:
         return x
 
+def op_neg(x):
+    """Negates a mathematical object."""
+    return op_prod([-1, x])
+
 class Evaluator:
     """Contains a variable binding which is used when evaluating expressions."""
 
     def __init__(self):
         self.binding = { }
         self.builtins = {
-            "plus" : builtin_plus,
-            "prod" : builtin_prod,
-            "neg" : -1,
+            "plus" : op_plus,
+            "prod" : op_prod,
+            "neg" : op_neg,
             "i" : 1j
         }
 
@@ -82,7 +86,7 @@ class Evaluator:
             if callable(op):
                 return op(arg)
             else:
-                return builtin_prod([op, arg])
+                return op_prod([op, arg])
         elif type(expr) == str:
             if expr in self.binding:
                 return self.evaluate(self.binding[expr])
