@@ -26,7 +26,7 @@ def op_plus(x):
         if len(x) == 0:
             return 0
         acc = x[0]
-        for item in x[1:]:
+        for item in x[1 :]:
             acc = binary_plus(acc, item)
         return acc
     else:
@@ -49,7 +49,7 @@ def op_prod(x):
         if len(x) == 0:
             return 1
         acc = x[0]
-        for item in x[1:]:
+        for item in x[1 :]:
             acc = binary_prod(acc, item)
         return acc
     else:
@@ -67,6 +67,7 @@ def op_inv(x):
         return 1 / x
 
 def op_fact(x):
+    """Computes the factorial of a mathematical object."""
     if isinstance(x, list):
         return [op_fact(a) for a in x]
     elif isinstance(x, complex):

@@ -64,7 +64,7 @@ class Lexer:
 
     def chr(self):
         """Returns the next character."""
-        return self.src[self.cursor_end]
+        return "" if self.empty() else self.src[self.cursor_end]
 
     def substr(self):
         """Returns the current substring."""
