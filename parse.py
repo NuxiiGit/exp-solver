@@ -73,13 +73,13 @@ class Parser:
             if token == "-":
                 return Node("neg", self.parse_unary())
             return self.parse_unary()
-        return self.parse_implicit_multiplication()
+        return self.parse_implicit_call()
 
-    def parse_implicit_multiplication(self):
-        """Parses implicit multiplication."""
+    def parse_implicit_call(self):
+        """Parses implicit application."""
         expr = self.parse_unary_postfix()
         while self.sat(lambda x: is_terminal(x)):
-            expr = Node("prod", [expr, self.parse_unary_postfix()])
+            expr = Node(expr, self.parse_unary_postfix())
         return expr
 
     def parse_unary_postfix(self):
@@ -90,16 +90,9 @@ class Parser:
         return expr
 
     def parse_call(self):
-        """Parses explicit function application."""
-        expr = self.parse_subtext()
-        while self.sat(lambda x: x in { "(", "[", "{" }):
-            expr = Node(expr, self.parse_subtext())
-        return expr
-
-    def parse_subtext(self):
-        """Parses subtext `_` operator."""
+        """Parses explicit application."""
         expr = self.parse_grouping()
-        while self.advance(lambda x: x == "_") != None:
+        while self.sat(lambda x: x in { "(", "[", "{" }):
             expr = Node(expr, self.parse_grouping())
         return expr
 
