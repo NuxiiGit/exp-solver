@@ -83,16 +83,20 @@ def op_log(base):
     def log_with_base(x):
         if isinstance(x, list):
             return [log_with_base(a, base) for a in x]
-        else:
+        elif isinstance(x, complex) or isinstance(base, complex):
             return cmath.log(x, base)
+        else:
+            return math.log(x, base)
     return log_with_base
 
 def op_sin(x):
     """Computes the sine of this mathematical object."""
     if isinstance(x, list):
         return [op_sin(a) for a in x]
-    else:
+    elif isinstance(x, complex):
         return cmath.sin(x)
+    else:
+        return math.sin(x)
 
 class Evaluator:
     """Contains a variable binding which is used when evaluating expressions."""
