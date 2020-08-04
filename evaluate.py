@@ -76,18 +76,23 @@ def op_fact(x):
     else:
         return math.gamma(x + 1)
 
-def op_log(base):
-    """Creates a new logarithm function with this base."""
-    if isinstance(base, list):
-        raise ArithmeticError("logarithm bases cannot be vectors")
-    def log_with_base(x):
-        if isinstance(x, list):
-            return [log_with_base(a, base) for a in x]
-        elif isinstance(x, complex) or isinstance(base, complex):
-            return cmath.log(x, base)
-        else:
-            return math.log(x, base)
-    return log_with_base
+def op_log(x):
+    """Returns the logarithm of a mathematical object."""
+    base = 10
+    val = x
+    if isinstance(x, list):
+        if len(x) != 2:
+            raise ArithmeticError("undefined logarithm argument count")
+        base = x[0]
+        val = x[1]
+    if isinstance(base, complex) or isinstance(val, complex):
+        return cmath.log(val, base)
+    else:
+        return math.log(val, base)
+
+def op_ln(x):
+    """Returns the natural logarithm of a mathematical structure."""
+    return op_log([math.e, x])
 
 def op_sin(x):
     """Computes the sine of this mathematical object."""
@@ -110,7 +115,7 @@ class Evaluator:
             "inv" : op_inv,
             "fact" : op_fact,
             "log" : op_log,
-            "ln" : op_log(math.e),
+            "ln" : op_ln,
             "sin" : op_sin,
             "i" : 1j,
             "e" : math.e,
