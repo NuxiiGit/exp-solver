@@ -87,6 +87,13 @@ def op_log(base):
             return cmath.log(x, base)
     return log_with_base
 
+def op_sin(x):
+    """Computes the sine of this mathematical object."""
+    if isinstance(x, list):
+        return [op_sin(a) for a in x]
+    else:
+        return cmath.sin(x)
+
 class Evaluator:
     """Contains a variable binding which is used when evaluating expressions."""
 
@@ -100,6 +107,7 @@ class Evaluator:
             "fact" : op_fact,
             "log" : op_log,
             "ln" : op_log(math.e),
+            "sin" : op_sin,
             "i" : 1j,
             "e" : math.e,
             "pi" : math.pi,
