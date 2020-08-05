@@ -98,12 +98,14 @@ class Parser:
 
     def parse_grouping(self):
         """Parses a grouping of expressions."""
-        if (token := self.advance(lambda x: x in { "(", "[", "{" })) != None:
-            paren_close = { "(" : ")", "[" : "]", "{" : "}" }[token]
+        if (token := self.advance(lambda x: x in { "(", "[", "{", "|" })) != None:
+            paren_close = { "(" : ")", "[" : "]", "{" : "}", "|" : "|" }[token]
             if self.advance(lambda x: x == paren_close) != None:
                 return []
             expr = self.parse_vector()
             self.expects(lambda x: x == paren_close, "expected closing parenthesis in grouping")
+            if token == "|":
+                expr = Node("abs", expr)
             return expr
         else:
             return self.expects(is_terminal, "expected terminal value")
