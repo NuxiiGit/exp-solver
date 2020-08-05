@@ -123,6 +123,15 @@ def op_cos(x):
     else:
         return math.cos(x)
 
+def op_tan(x):
+    """Returns the tangent of this mathematical object."""
+    if isinstance(x, list):
+        return [op_tan(a) for a in x]
+    elif isinstance(x, complex):
+        return cmath.tan(x)
+    else:
+        return math.tan(x)
+
 def op_abs(x):
     """Returns the absolute value of a mathematical object."""
     if isinstance(x, list):
@@ -146,6 +155,7 @@ class Evaluator:
             "ln" : op_ln,
             "sin" : op_sin,
             "cos" : op_cos,
+            "tan" : op_tan,
             "abs" : op_abs,
             "i" : 1j,
             "e" : math.e,
