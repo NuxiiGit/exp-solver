@@ -86,7 +86,7 @@ class Parser:
         """Parses `^` binary operator."""
         expr = self.parse_unary_postfix()
         while self.advance(lambda x: x == "^") != None:
-            expr = Node("pow", [expr, self.parse_unary_postfix()])
+            expr = Node("exp", [expr, self.parse_unary_postfix()])
         return expr
 
     def parse_unary_postfix(self):

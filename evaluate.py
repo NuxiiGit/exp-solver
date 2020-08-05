@@ -76,6 +76,17 @@ def op_fact(x):
     else:
         return math.gamma(x + 1)
 
+def op_exp(x):
+    """Returns the power of this object mathematical object."""
+    base = math.e
+    val = x
+    if isinstance(x, list):
+        if len(x) != 2:
+            raise ArithmeticError("undefined exponent argument count")
+        base = x[0]
+        val = x[1]
+    return base ** val
+
 def op_log(x):
     """Returns the logarithm of a mathematical object."""
     base = 10
@@ -95,7 +106,7 @@ def op_ln(x):
     return op_log([math.e, x])
 
 def op_sin(x):
-    """Computes the sine of this mathematical object."""
+    """Returns the sine of this mathematical object."""
     if isinstance(x, list):
         return [op_sin(a) for a in x]
     elif isinstance(x, complex):
@@ -104,7 +115,7 @@ def op_sin(x):
         return math.sin(x)
 
 def op_abs(x):
-    """Computes the absolute value of a mathematical object."""
+    """Returns the absolute value of a mathematical object."""
     if isinstance(x, list):
         return [op_abs(a) for a in x]
     else:
@@ -121,6 +132,7 @@ class Evaluator:
             "neg" : op_neg,
             "inv" : op_inv,
             "fact" : op_fact,
+            "exp" : op_exp,
             "log" : op_log,
             "ln" : op_ln,
             "sin" : op_sin,
