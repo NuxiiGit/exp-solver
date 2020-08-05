@@ -139,6 +139,15 @@ def op_abs(x):
     else:
         return abs(x)
 
+def op_signum(x):
+    """Returns the sign of this mathematical object."""
+    if isinstance(x, list):
+        return [op_signum(a) for a in x]
+    elif isinstance(x, complex):
+        raise ArithmeticError("signum does not support complex numbers")
+    else:
+        return math.copysign(1, x)
+
 class Evaluator:
     """Contains a variable binding which is used when evaluating expressions."""
 
@@ -157,6 +166,7 @@ class Evaluator:
             "cos" : op_cos,
             "tan" : op_tan,
             "abs" : op_abs,
+            "signum" : op_signum,
             "i" : 1j,
             "e" : math.e,
             "pi" : math.pi,
