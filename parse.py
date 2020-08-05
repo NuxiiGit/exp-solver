@@ -77,9 +77,16 @@ class Parser:
 
     def parse_implicit_call(self):
         """Parses implicit application."""
-        expr = self.parse_unary_postfix()
+        expr = self.parse_exponential()
         while self.sat(lambda x: is_terminal(x)):
-            expr = Node(expr, self.parse_unary_postfix())
+            expr = Node(expr, self.parse_exponential())
+        return expr
+
+    def parse_exponential(self):
+        """Parses `^` binary operator."""
+        expr = self.parse_unary_postfix()
+        while self.advance(lambda x: x == "^") != None:
+            expr = Node("pow", [expr, self.parse_unary_postfix()])
         return expr
 
     def parse_unary_postfix(self):
