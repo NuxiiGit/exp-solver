@@ -188,6 +188,13 @@ def op_floor(x):
     else:
         return math.floor(x)
 
+def op_phase(x):
+    """Returns the phase of a complex number."""
+    if isinstance(x, list):
+        return [op_phase(a) for a in x]
+    else:
+        return cmath.phase(x)
+
 class Evaluator:
     """Contains a variable binding which is used when evaluating expressions."""
 
@@ -210,9 +217,12 @@ class Evaluator:
             "cot" : op_cot,
             "abs" : op_abs,
             "signum" : op_signum,
+            "sgn" : "signum",
             "ceil" : op_ceil,
             "round" : op_round,
             "floor" : op_floor,
+            "phase" : op_phase,
+            "arg" : "phase",
             "i" : 1j,
             "e" : math.e,
             "pi" : math.pi,
