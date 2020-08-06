@@ -155,10 +155,11 @@ def op_signum(x):
     """Returns the sign of this mathematical object."""
     if isinstance(x, list):
         return [op_signum(a) for a in x]
-    elif isinstance(x, complex):
-        raise ArithmeticError("signum does not support complex numbers")
     else:
-        return math.copysign(1, x)
+        m = abs(x)
+        if m:
+            x /= m
+        return x
 
 class Evaluator:
     """Contains a variable binding which is used when evaluating expressions."""
