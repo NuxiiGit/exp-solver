@@ -132,6 +132,18 @@ def op_tan(x):
     else:
         return math.tan(x)
 
+def op_csc(x):
+    """Returns the cosecant of this mathematical object."""
+    return op_inv(op_sin(x))
+
+def op_sec(x):
+    """Returns the secant of this mathematical object."""
+    return op_inv(op_cos(x))
+
+def op_cot(x):
+    """Returns the cotangent of this mathematical object."""
+    return op_inv(op_tan(x))
+
 def op_abs(x):
     """Returns the absolute value of a mathematical object."""
     if isinstance(x, list):
@@ -165,6 +177,9 @@ class Evaluator:
             "sin" : op_sin,
             "cos" : op_cos,
             "tan" : op_tan,
+            "csc" : op_csc,
+            "sec" : op_sec,
+            "cot" : op_cot,
             "abs" : op_abs,
             "signum" : op_signum,
             "i" : 1j,
