@@ -132,6 +132,33 @@ def op_tan(x):
     else:
         return math.tan(x)
 
+def op_asin(x):
+    """Returns the inverse sine of this mathematical object."""
+    if isinstance(x, list):
+        return [op_asin(a) for a in x]
+    elif isinstance(x, complex):
+        return cmath.asin(x)
+    else:
+        return math.asin(x)
+
+def op_acos(x):
+    """Returns the inverse cosine of this mathematical object."""
+    if isinstance(x, list):
+        return [op_acos(a) for a in x]
+    elif isinstance(x, complex):
+        return cmath.acos(x)
+    else:
+        return math.acos(x)
+
+def op_atan(x):
+    """Returns the inverse tangent of this mathematical object."""
+    if isinstance(x, list):
+        return [op_atan(a) for a in x]
+    elif isinstance(x, complex):
+        return cmath.atan(x)
+    else:
+        return math.atan(x)
+
 def op_csc(x):
     """Returns the cosecant of this mathematical object."""
     return op_inv(op_sin(x))
