@@ -179,6 +179,15 @@ def op_round(x):
     else:
         return round(x)
 
+def op_floor(x):
+    """Returns the floor of this mathematical object."""
+    if isinstance(x, list):
+        return [op_floor(a) for a in x]
+    elif isinstance(x, complex):
+        return complex(math.floor(x.real), math.floor(x.imag))
+    else:
+        return math.floor(x)
+
 class Evaluator:
     """Contains a variable binding which is used when evaluating expressions."""
 
@@ -203,6 +212,7 @@ class Evaluator:
             "signum" : op_signum,
             "ceil" : op_ceil,
             "round" : op_round,
+            "floor" : op_floor,
             "i" : 1j,
             "e" : math.e,
             "pi" : math.pi,
