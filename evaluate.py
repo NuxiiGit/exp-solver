@@ -170,6 +170,15 @@ def op_ceil(x):
     else:
         return math.ceil(x)
 
+def op_round(x):
+    """Returns the rounded version of this mathematical object."""
+    if isinstance(x, list):
+        return [op_round(a) for a in x]
+    elif isinstance(x, complex):
+        return complex(round(x.real), round(x.imag))
+    else:
+        return round(x)
+
 class Evaluator:
     """Contains a variable binding which is used when evaluating expressions."""
 
@@ -193,6 +202,7 @@ class Evaluator:
             "abs" : op_abs,
             "signum" : op_signum,
             "ceil" : op_ceil,
+            "round" : op_round,
             "i" : 1j,
             "e" : math.e,
             "pi" : math.pi,
