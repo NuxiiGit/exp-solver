@@ -161,6 +161,15 @@ def op_signum(x):
             x /= m
         return x
 
+def op_ceil(x):
+    """Returns the ceiling of this mathematical object."""
+    if isinstance(x, list):
+        return [op_ceil(a) for a in x]
+    elif isinstance(x, complex):
+        return complex(math.ceil(x.real), math.ceil(x.imag))
+    else:
+        return math.ceil(x)
+
 class Evaluator:
     """Contains a variable binding which is used when evaluating expressions."""
 
@@ -183,6 +192,7 @@ class Evaluator:
             "cot" : op_cot,
             "abs" : op_abs,
             "signum" : op_signum,
+            "ceil" : op_ceil,
             "i" : 1j,
             "e" : math.e,
             "pi" : math.pi,
