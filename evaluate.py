@@ -222,6 +222,16 @@ def op_phase(x):
     else:
         return cmath.phase(x)
 
+def op_mod(x):
+    """Returns the modulo of this mathematical object."""
+    if isinstance(x, list) and len(x) == 2:
+        a = x[0]
+        b = x[1]
+        c = op_floor(op_prod([a, op_inv(b)]))
+        return op_plus([a, op_neg(op_prod([c, b]))])
+    else:
+        raise ValueError("unsupported argument count for modulo")
+
 class Evaluator:
     """Contains a variable binding which is used when evaluating expressions."""
 
@@ -250,6 +260,7 @@ class Evaluator:
             "floor" : op_floor,
             "phase" : op_phase,
             "arg" : "phase",
+            "mod" : op_mod,
             "i" : 1j,
             "e" : math.e,
             "pi" : math.pi,
