@@ -91,6 +91,10 @@ def op_exp(x):
         val = x[1]
     return base ** val
 
+def op_sqrt(x):
+    """Returns the square root of this mathematical object."""
+    return op_exp([0.5, x])
+
 def op_log(x):
     """Returns the logarithm of a mathematical object."""
     base = 10
@@ -339,6 +343,7 @@ class Evaluator:
             "gamma" : op_gamma,
             "fact" : op_fact,
             "exp" : op_exp,
+            "sqrt" : op_sqrt,
             "log" : op_log,
             "ln" : op_ln,
             "sin" : op_sin,
