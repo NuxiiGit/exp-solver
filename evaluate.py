@@ -93,7 +93,7 @@ def op_exp(x):
 
 def op_sqrt(x):
     """Returns the square root of this mathematical object."""
-    return op_exp([0.5, x])
+    return op_exp([x, 0.5])
 
 def op_log(x):
     """Returns the logarithm of a mathematical object."""
