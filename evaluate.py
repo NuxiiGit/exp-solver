@@ -67,14 +67,18 @@ def op_inv(x):
     else:
         return 1 / x
 
-def op_fact(x):
-    """Computes the factorial of a mathematical object."""
+def op_gamma(x):
+    """Computes the gamma function of a mathematical object."""
     if isinstance(x, list):
-        return [op_fact(a) for a in x]
+        return [op_gamma(a) for a in x]
     elif isinstance(x, complex):
         raise ArithmeticError("complex factorials are not supported")
     else:
-        return math.gamma(x + 1)
+        return math.gamma(x)
+
+def op_fact(x):
+    """Computes the factorial of a mathematical object."""
+    return op_gamma(op_plus([x, 1]))
 
 def op_exp(x):
     """Returns the power of this object mathematical object."""
