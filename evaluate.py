@@ -168,6 +168,18 @@ def op_sec(x):
     return op_inv(op_cos(x))
 
 def op_cot(x):
+    """Returns the inverse cotangent of this mathematical object."""
+    return op_inv(op_atan(x))
+
+def op_acsc(x):
+    """Returns the inverse cosecant of this mathematical object."""
+    return op_inv(op_asin(x))
+
+def op_asec(x):
+    """Returns the inverse secant of this mathematical object."""
+    return op_inv(op_acos(x))
+
+def op_acot(x):
     """Returns the cotangent of this mathematical object."""
     return op_inv(op_tan(x))
 
