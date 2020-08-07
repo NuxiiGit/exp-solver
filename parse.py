@@ -38,11 +38,18 @@ class Parser:
 
     def parse_equality(self):
         """Parses `=` operator."""
-        expr = self.parse_addition()
+        expr = self.parse_modulo()
         while self.advance(lambda x: x == "=") != None:
             l = expr
-            r = Node("neg", self.parse_addition())
+            r = Node("neg", self.parse_modulo())
             expr = Node("plus", [l, r])
+        return expr
+
+    def parse_modulo(self):
+        """Parses `%` operator."""
+        expr = self.parse_addition()
+        while self.advance(lambda x: x == "%") != None:
+            expr = Node("mod", [expr, self.parse_addition()])
         return expr
 
     def parse_addition(self):

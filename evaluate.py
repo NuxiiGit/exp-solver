@@ -336,6 +336,7 @@ class Evaluator:
             "prod" : op_prod,
             "neg" : op_neg,
             "inv" : op_inv,
+            "gamma" : op_gamma,
             "fact" : op_fact,
             "exp" : op_exp,
             "log" : op_log,
