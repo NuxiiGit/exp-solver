@@ -105,6 +105,67 @@ def op_ln(x):
     """Returns the natural logarithm of a mathematical structure."""
     return op_log([math.e, x])
 
+def op_abs(x):
+    """Returns the absolute value of a mathematical object."""
+    if isinstance(x, list):
+        return [op_abs(a) for a in x]
+    else:
+        return abs(x)
+
+def op_signum(x):
+    """Returns the sign of this mathematical object."""
+    if isinstance(x, list):
+        return [op_signum(a) for a in x]
+    else:
+        m = abs(x)
+        if m:
+            x /= m
+        return x
+
+def op_ceil(x):
+    """Returns the ceiling of this mathematical object."""
+    if isinstance(x, list):
+        return [op_ceil(a) for a in x]
+    elif isinstance(x, complex):
+        return complex(math.ceil(x.real), math.ceil(x.imag))
+    else:
+        return math.ceil(x)
+
+def op_round(x):
+    """Returns the rounded version of this mathematical object."""
+    if isinstance(x, list):
+        return [op_round(a) for a in x]
+    elif isinstance(x, complex):
+        return complex(round(x.real), round(x.imag))
+    else:
+        return round(x)
+
+def op_floor(x):
+    """Returns the floor of this mathematical object."""
+    if isinstance(x, list):
+        return [op_floor(a) for a in x]
+    elif isinstance(x, complex):
+        return complex(math.floor(x.real), math.floor(x.imag))
+    else:
+        return math.floor(x)
+
+def op_phase(x):
+    """Returns the phase of a complex number."""
+    if isinstance(x, list):
+        return [op_phase(a) for a in x]
+    else:
+        return cmath.phase(x)
+
+def op_mod(x):
+    """Returns the modulo of this mathematical object."""
+    if isinstance(x, list) and len(x) == 2:
+        a = x[0]
+        b = x[1]
+        c = op_floor(op_prod([a, op_inv(b)]))
+        return op_plus([a, op_neg(op_prod([c, b]))])
+    else:
+        raise ValueError("unsupported argument count for modulo")
+
 def op_sin(x):
     """Returns the sine of this mathematical object."""
     if isinstance(x, list):
@@ -168,8 +229,8 @@ def op_sec(x):
     return op_inv(op_cos(x))
 
 def op_cot(x):
-    """Returns the inverse cotangent of this mathematical object."""
-    return op_inv(op_atan(x))
+    """Returns the cotangent of this mathematical object."""
+    return op_inv(op_tan(x))
 
 def op_acsc(x):
     """Returns the inverse cosecant of this mathematical object."""
@@ -180,69 +241,86 @@ def op_asec(x):
     return op_inv(op_acos(x))
 
 def op_acot(x):
-    """Returns the cotangent of this mathematical object."""
-    return op_inv(op_tan(x))
+    """Returns the inverse cotangent of this mathematical object."""
+    return op_inv(op_atan(x))
 
-def op_abs(x):
-    """Returns the absolute value of a mathematical object."""
+def op_sinh(x):
+    """Returns the hyperbolic sine of this mathematical object."""
     if isinstance(x, list):
-        return [op_abs(a) for a in x]
-    else:
-        return abs(x)
-
-def op_signum(x):
-    """Returns the sign of this mathematical object."""
-    if isinstance(x, list):
-        return [op_signum(a) for a in x]
-    else:
-        m = abs(x)
-        if m:
-            x /= m
-        return x
-
-def op_ceil(x):
-    """Returns the ceiling of this mathematical object."""
-    if isinstance(x, list):
-        return [op_ceil(a) for a in x]
+        return [op_sinh(a) for a in x]
     elif isinstance(x, complex):
-        return complex(math.ceil(x.real), math.ceil(x.imag))
+        return cmath.sinh(x)
     else:
-        return math.ceil(x)
+        return math.sinh(x)
 
-def op_round(x):
-    """Returns the rounded version of this mathematical object."""
+def op_cosh(x):
+    """Returns the hyperbolic cosine of this mathematical object."""
     if isinstance(x, list):
-        return [op_round(a) for a in x]
+        return [op_cosh(a) for a in x]
     elif isinstance(x, complex):
-        return complex(round(x.real), round(x.imag))
+        return cmath.cosh(x)
     else:
-        return round(x)
+        return math.cosh(x)
 
-def op_floor(x):
-    """Returns the floor of this mathematical object."""
+def op_tanh(x):
+    """Returns the hyperbolic tangent of this mathematical object."""
     if isinstance(x, list):
-        return [op_floor(a) for a in x]
+        return [op_tanh(a) for a in x]
     elif isinstance(x, complex):
-        return complex(math.floor(x.real), math.floor(x.imag))
+        return cmath.tanh(x)
     else:
-        return math.floor(x)
+        return math.tanh(x)
 
-def op_phase(x):
-    """Returns the phase of a complex number."""
+def op_asinh(x):
+    """Returns the inverse hyperbolic sine of this mathematical object."""
     if isinstance(x, list):
-        return [op_phase(a) for a in x]
+        return [op_asinh(a) for a in x]
+    elif isinstance(x, complex):
+        return cmath.asinh(x)
     else:
-        return cmath.phase(x)
+        return math.asinh(x)
 
-def op_mod(x):
-    """Returns the modulo of this mathematical object."""
-    if isinstance(x, list) and len(x) == 2:
-        a = x[0]
-        b = x[1]
-        c = op_floor(op_prod([a, op_inv(b)]))
-        return op_plus([a, op_neg(op_prod([c, b]))])
+def op_acosh(x):
+    """Returns the inverse hyperbolic cosine of this mathematical object."""
+    if isinstance(x, list):
+        return [op_acosh(a) for a in x]
+    elif isinstance(x, complex):
+        return cmath.acosh(x)
     else:
-        raise ValueError("unsupported argument count for modulo")
+        return math.acosh(x)
+
+def op_atanh(x):
+    """Returns the inverse hyperbolic tangent of this mathematical object."""
+    if isinstance(x, list):
+        return [op_atanh(a) for a in x]
+    elif isinstance(x, complex):
+        return cmath.atanh(x)
+    else:
+        return math.atanh(x)
+
+def op_csch(x):
+    """Returns the hyperbolic cosecant of this mathematical object."""
+    return op_inv(op_sinh(x))
+
+def op_sech(x):
+    """Returns the hyperbolic secant of this mathematical object."""
+    return op_inv(op_cosh(x))
+
+def op_coth(x):
+    """Returns the hyperbolic cotangent of this mathematical object."""
+    return op_inv(op_tanh(x))
+
+def op_acsch(x):
+    """Returns the inverse hyperbolic cosecant of this mathematical object."""
+    return op_inv(op_asinh(x))
+
+def op_asech(x):
+    """Returns the inverse hyperbolic secant of this mathematical object."""
+    return op_inv(op_acosh(x))
+
+def op_acoth(x):
+    """Returns the inverse hyperbolic cotangent of this mathematical object."""
+    return op_inv(op_atanh(x))
 
 class Evaluator:
     """Contains a variable binding which is used when evaluating expressions."""
