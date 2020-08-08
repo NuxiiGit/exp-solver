@@ -1,2 +1,3 @@
 # exp-solver
-An expression solver and evaluator written in Python.
+
+A mathematical expression evaluator and numerical solver.
