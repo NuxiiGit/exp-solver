@@ -404,6 +404,10 @@ class Evaluator:
         else:
             self.binding[ident] = value
 
+    def get_variable(self, ident):
+        """Returns the value of this variable binding."""
+        return self.binding[ident] if ident in binding else None
+
     def evaluate(self, expr):
         """Evaluates the expression."""
         if type(expr) == parse.Node:
