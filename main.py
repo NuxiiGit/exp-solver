@@ -1,6 +1,6 @@
 import parse
 import evaluate
-
+import solve
 import sys
 
 argument = sys.argv
@@ -13,8 +13,7 @@ if argument_count == 0:
 else:
     src = argument[0]
     expr = parse.Parser(src).parse()
-    print(expr)
     evaluator = evaluate.Evaluator()
-    print(evaluator.evaluate(expr))
-    #print("expr:   " + show_expr(expr))
-    #print("result: " + str(val))
+    solution = solve.hillclimb(evaluator, "x")
+    print("expression: " + str(expr))
+    print("solution:   " + str(solution))

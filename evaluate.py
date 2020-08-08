@@ -381,7 +381,7 @@ class Evaluator:
             "abs" : op_abs,
             "modulus" : "abs",
             "signum" : op_signum,
-            "sign" : "signum"
+            "sign" : "signum",
             "sgn" : "signum",
             "ceil" : op_ceil,
             "round" : op_round,
@@ -406,7 +406,7 @@ class Evaluator:
 
     def get_variable(self, ident):
         """Returns the value of this variable binding."""
-        return self.binding[ident] if ident in binding else None
+        return self.binding[ident] if ident in self.binding else None
 
     def evaluate(self, expr):
         """Evaluates the expression."""
