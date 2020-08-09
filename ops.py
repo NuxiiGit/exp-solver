@@ -182,6 +182,15 @@ def op_min(x):
     else:
         return x
 
+def op_max(x):
+    """Returns the maximum element of this vector."""
+    if isinstance(x, list):
+        if len(x) < 1:
+            raise ArithmeticError("`max` is undefined for the empty vector")
+        return functools.reduce(lambda a, b: a if a > b else b, x[1 :], x[0])
+    else:
+        return x
+
 def op_sin(x):
     """Returns the sine of this mathematical object."""
     if isinstance(x, list):
@@ -370,6 +379,7 @@ binding = {
     "mod" : op_mod,
     "modulo" : "mod",
     "min" : op_min,
+    "max" : op_max,
     "sin" : op_sin,
     "cos" : op_cos,
     "tan" : op_tan,
