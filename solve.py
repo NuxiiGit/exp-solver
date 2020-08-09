@@ -5,6 +5,5 @@ def neighbourhood(current, amount):
 def hillclimb(evaluator, unknown):
     """Performs a naive hillclimbing optimisation algorithm to solve for `unknown`."""
     amount = 1
-    index = evaluator.get_variable(unknown) or 0
     # TODO: hill climbing
-    return index
+    return 0

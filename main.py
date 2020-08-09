@@ -14,6 +14,6 @@ else:
     src = argument[0]
     expr = parse.Parser(src).parse()
     evaluator = evaluate.Evaluator()
-    solution = solve.hillclimb(evaluator, "x")
+    value = evaluator.evaluate(expr)
     print("expression: " + str(expr))
-    print("solution:   " + str(solution))
+    print("value:      " + str(value))
