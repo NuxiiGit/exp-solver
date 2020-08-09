@@ -173,6 +173,15 @@ def op_mod(x):
     else:
         raise ValueError("unsupported argument count for modulo")
 
+def op_min(x):
+    """Returns the minimum element of this vector."""
+    if isinstance(x, list):
+        if len(x) < 1:
+            raise ArithmeticError("`min` is undefined for the empty vector")
+        return functools.reduce(lambda a, b: a if a < b else b, x[1 :], x[0])
+    else:
+        return x
+
 def op_sin(x):
     """Returns the sine of this mathematical object."""
     if isinstance(x, list):
@@ -348,6 +357,19 @@ binding = {
     "log" : op_log,
     "ln" : op_ln,
     "loge" : "ln",
+    "abs" : op_abs,
+    "modulus" : "abs",
+    "signum" : op_signum,
+    "sign" : "signum",
+    "sgn" : "signum",
+    "ceil" : op_ceil,
+    "round" : op_round,
+    "floor" : op_floor,
+    "phase" : op_phase,
+    "arg" : "phase",
+    "mod" : op_mod,
+    "modulo" : "mod",
+    "min" : op_min,
     "sin" : op_sin,
     "cos" : op_cos,
     "tan" : op_tan,
@@ -372,18 +394,6 @@ binding = {
     "acsch" : op_acsch,
     "asech" : op_asech,
     "acoth" : op_acoth,
-    "abs" : op_abs,
-    "modulus" : "abs",
-    "signum" : op_signum,
-    "sign" : "signum",
-    "sgn" : "signum",
-    "ceil" : op_ceil,
-    "round" : op_round,
-    "floor" : op_floor,
-    "phase" : op_phase,
-    "arg" : "phase",
-    "mod" : op_mod,
-    "modulo" : "mod",
     "i" : 1j,
     "e" : math.e,
     "pi" : math.pi,
