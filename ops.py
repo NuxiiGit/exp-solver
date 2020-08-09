@@ -191,6 +191,12 @@ def op_max(x):
     else:
         return x
 
+def op_ifthenelse(x):
+    """Returns branches depending on whether the first element of a vector is truthy."""
+    if isinstance(x, list) and len(x) == 3:
+        return x[1] if x[0] else x[2]
+    raise ArithmeticError("`ifthenelse` is only supported for 3-dimensional vectors")
+
 def op_sin(x):
     """Returns the sine of this mathematical object."""
     if isinstance(x, list):
@@ -380,6 +386,9 @@ binding = {
     "modulo" : "mod",
     "min" : op_min,
     "max" : op_max,
+    "ifthenelse" : op_ifthenelse,
+    "if" : "ifthenelse",
+    "condition" : "ifthenelse",
     "sin" : op_sin,
     "cos" : op_cos,
     "tan" : op_tan,
