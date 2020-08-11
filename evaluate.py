@@ -6,7 +6,12 @@ def evaluate(expr, binding):
     if isinstance(expr, parse.Node):
         raise ValueError("unimplemented")
     elif isinstance(expr, str):
-        raise ValueError("also unimplemented")
+        if expr in binding:
+            return evaluate(binding[expr], binding)
+        elif expr in ops.binding:
+            return evaluate(ops.binding[expr], binding)
+        else:
+            raise LookupError("unbound identifier '%s'" % expr)
     elif isinstance(expr, list):
         return [evaluate(x, binding) for x in expr]
     else:
