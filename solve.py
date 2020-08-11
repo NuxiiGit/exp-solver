@@ -27,11 +27,15 @@ def neighbourhood(current, amount):
     """Returns the neighbourhood of this mathematical object."""
     return [current - amount, current + amount]
 
-def hillclimb(expr, unknown, binding={ }):
+def hillclimb(expr, unknown, variables={ }):
     """Performs a naive hillclimbing optimisation algorithm to solve for `unknown`."""
-    amount = 1
-    binding = binding.copy()
+    binding = variables.copy()
     if not (unknown in binding):
         binding[unknown] = 0
     # TODO: hill climbing
+    minimum = evaluate(expr, binding)
+    amount = 1
+    while True:
+        neighbours = neighbourhood(binding[unknown], amount)
+        # loop through neighbourhood to find a new minimum
     return binding[unknown]
