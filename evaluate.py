@@ -1,6 +1,17 @@
 import parse
 import ops
 
+def evaluate(expr, binding):
+    """Evaluates an expression using this binding."""
+    if isinstance(expr, parse.Node):
+        raise ValueError("unimplemented")
+    elif isinstance(expr, str):
+        raise ValueError("also unimplemented")
+    elif isinstance(expr, list):
+        return [evaluate(x, binding) for x in expr]
+    else:
+        return expr
+
 class Evaluator:
     """Contains a variable binding which is used when evaluating expressions."""
 
