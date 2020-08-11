@@ -23,6 +23,10 @@ def evaluate(expr, binding):
     else:
         return expr
 
+def weight(candidate):
+    """Computes the weight of a candidate."""
+    return candidate - 0
+
 def neighbourhood(current, amount):
     """Returns the neighbourhood of this mathematical object."""
     return [current - amount, current + amount]
