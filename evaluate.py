@@ -4,7 +4,13 @@ import ops
 def evaluate(expr, binding):
     """Evaluates an expression using this binding."""
     if isinstance(expr, parse.Node):
-        raise ValueError("unimplemented")
+        op = evaluate(expr.op, binding)
+        arg = evaluate(expr.arg, binding)
+        if callable(op):
+            return op(arg)
+        else:
+            # implicit multiplication
+            return ops.op_prod([op, arg])
     elif isinstance(expr, str):
         if expr in binding:
             return evaluate(binding[expr], binding)
