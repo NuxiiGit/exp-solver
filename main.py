@@ -12,6 +12,5 @@ if argument_count == 0:
 else:
     src = argument[0]
     expr = parse.Parser(src).parse()
-    value = solve.evaluate(expr, { "x" : 0 })
-    print("expression: " + str(expr))
-    print("value:      " + str(value))
+    print("expression: %s" % expr)
+    print("solution:   %s" % solve.hillclimb(expr, "x", { "x" : 12 }))
