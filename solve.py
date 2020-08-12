@@ -33,12 +33,12 @@ def neighbourhood(current, amount):
 
 def hillclimb(expr, unknown):
     """Performs a naive hillclimbing optimisation algorithm to solve for `unknown`."""
+    resolution = 1
     value = 0
-    amount = 1
     minimum = weight(evaluate(expr, { unknown : value }))
     while True:
         no_new_neighbour = True
-        for neighbour in neighbourhood(value, amount):
+        for neighbour in neighbourhood(value, resolution):
             # loop through neighbourhood to find a new minimum
             new_minimum = weight(evaluate(expr, { unknown : neighbour }))
             if new_minimum < minimum:
@@ -46,5 +46,9 @@ def hillclimb(expr, unknown):
                 value = neighbour
                 no_new_neighbour = False
         if no_new_neighbour:
-            # no new neighbour, return minimum
-            return value
+            if resolution < 0.01:
+                # threshold reached, return index
+                return value
+            else:
+                # increase resolution
+                resolution /= 2
