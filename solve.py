@@ -25,7 +25,7 @@ def evaluate(expr, binding):
 
 def weight(candidate):
     """Computes the weight of a candidate."""
-    return candidate - 0
+    return abs(candidate)
 
 def neighbourhood(current, amount):
     """Returns the neighbourhood of this mathematical object."""
