@@ -37,9 +37,16 @@ def hillclimb(expr, unknown, variables={ }):
     if not (unknown in binding):
         binding[unknown] = 0
     # TODO: hill climbing
-    minimum = evaluate(expr, binding)
+    minimum = weight(evaluate(expr, binding))
     amount = 1
     while True:
-        neighbours = neighbourhood(binding[unknown], amount)
-        # loop through neighbourhood to find a new minimum
+        no_new_neighbour = True
+       for neighbour in neighbourhood(binding[unknown], amount):
+           # loop through neighbourhood to find a new minimum
+           new_minimum = weight(evaluate(expr, binding))
+           if new_minimum < minimum:
+               minimum = new_minimum
+
+
+
     return binding[unknown]
