@@ -43,7 +43,7 @@ def hillclimb(expr, unknown):
             new_minimum = weight(evaluate(expr, { unknown : neighbour }))
             if new_minimum < minimum:
                 minimum = new_minimum
-                value = neighbor
+                value = neighbour
                 no_new_neighbour = False
         if no_new_neighbour:
             # no new neighbour, return minimum

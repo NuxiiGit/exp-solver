@@ -13,4 +13,4 @@ else:
     src = argument[0]
     expr = parse.Parser(src).parse()
     print("expression: %s" % expr)
-    print("solution:   %s" % solve.hillclimb(expr, "x", { "x" : 12 }))
+    print("solution:   %s" % solve.hillclimb(expr, "x"))
