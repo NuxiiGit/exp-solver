@@ -1,5 +1,6 @@
 import parse
 import ops
+import sys
 
 def evaluate(expr, binding):
     """Evaluates an expression using this binding."""
@@ -31,9 +32,9 @@ def neighbourhood(current, amount):
     """Returns the neighbourhood of this mathematical object."""
     return [current - amount, current + amount]
 
-def hillclimb(expr, unknown, start=0):
+def hillclimb(expr, unknown, start=0, resolution=0.1):
     """Performs a naive hillclimbing optimisation algorithm to solve for `unknown`."""
-    resolution = 1
+    step = resolution
     value = start
     minimum = None
     try:
@@ -44,7 +45,7 @@ def hillclimb(expr, unknown, start=0):
         raise ValueError("invalid starting value")
     while True:
         no_new_neighbour = True
-        for neighbour in neighbourhood(value, resolution):
+        for neighbour in neighbourhood(value, step):
             # loop through neighbourhood to find a new minimum
             try:
                 value = evaluate(expr, { unknown : neighbour })
@@ -56,9 +57,9 @@ def hillclimb(expr, unknown, start=0):
             except:
                 pass
         if no_new_neighbour:
-            if resolution < 0.01:
+            if step < sys.float_info.epsilon:
                 # threshold reached, return index
                 return value
             else:
                 # increase resolution
-                resolution /= 2
+                step /= 2
