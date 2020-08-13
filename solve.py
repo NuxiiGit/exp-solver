@@ -39,6 +39,8 @@ def hillclimb(expr, unknown, start=0):
     try:
         minimum = weight(evaluate(expr, { unknown : value }))
     except:
+        pass
+    if minimum == None:
         raise ValueError("invalid starting value")
     while True:
         no_new_neighbour = True
