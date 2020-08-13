@@ -48,8 +48,7 @@ def hillclimb(expr, unknown, start=0, resolution=0.1):
         for neighbour in neighbourhood(value, step):
             # loop through neighbourhood to find a new minimum
             try:
-                value = evaluate(expr, { unknown : neighbour })
-                new_minimum = weight(value)
+                new_minimum = weight(evaluate(expr, { unknown : neighbour }))
                 if new_minimum < minimum:
                     minimum = new_minimum
                     value = neighbour
