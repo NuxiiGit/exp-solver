@@ -31,20 +31,28 @@ def neighbourhood(current, amount):
     """Returns the neighbourhood of this mathematical object."""
     return [current - amount, current + amount]
 
-def hillclimb(expr, unknown):
+def hillclimb(expr, unknown, start=0):
     """Performs a naive hillclimbing optimisation algorithm to solve for `unknown`."""
     resolution = 1
-    value = 0
-    minimum = weight(evaluate(expr, { unknown : value }))
+    value = start
+    minimum = None
+    try:
+        minimum = weight(evaluate(expr, { unknown : value }))
+    except:
+        raise ValueError("invalid starting value")
     while True:
         no_new_neighbour = True
         for neighbour in neighbourhood(value, resolution):
             # loop through neighbourhood to find a new minimum
-            new_minimum = weight(evaluate(expr, { unknown : neighbour }))
-            if new_minimum < minimum:
-                minimum = new_minimum
-                value = neighbour
-                no_new_neighbour = False
+            try:
+                value = evaluate(expr, { unknown : neighbour })
+                new_minimum = weight(value)
+                if new_minimum < minimum:
+                    minimum = new_minimum
+                    value = neighbour
+                    no_new_neighbour = False
+            except:
+                pass
         if no_new_neighbour:
             if resolution < 0.01:
                 # threshold reached, return index
