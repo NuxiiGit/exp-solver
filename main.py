@@ -2,10 +2,7 @@ import parse
 import solve
 import sys
 
-args = sys.argv
-del args[0] # don't want working directory
-count = len(args)
-if count == 0:
+def print_help():
     print("usage:")
     print("  python main.py [command] [expression] [options]")
     print("\navailable commands:")
@@ -16,8 +13,15 @@ if count == 0:
     print("  --> (plus [1.0, (3.0 i)])")
     print("  attempting to evaluate expression...")
     print("    value: 1.0+3.0i")
+
+args = sys.argv
+del args[0] # don't want working directory
+count = len(args)
+if count == 0:
+    print_help()
 elif count < 2:
-    print("invalid argument count")
+    print("invalid argument count!")
+    print_help()
 else:
     command = args[0]
     src = args[1]
