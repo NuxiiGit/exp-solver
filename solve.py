@@ -24,9 +24,13 @@ def evaluate(expr, binding):
     else:
         return expr
 
-def weight(candidate):
-    """Computes the weight of a candidate."""
-    return abs(candidate)
+def weight(expr, binding):
+    """Computes the weight of an expression using this binding."""
+    try:
+        value = evaluate(expr, binding)
+        return abs(value)
+    except:
+        return sys.float_info.max
 
 def neighbourhood(current, amount):
     """Returns the neighbourhood of this mathematical object."""
@@ -36,25 +40,16 @@ def hillclimb(expr, unknown, start=0, resolution=0.1):
     """Performs a naive hillclimbing optimisation algorithm to solve for `unknown`."""
     step = resolution
     value = start
-    minimum = None
-    try:
-        minimum = weight(evaluate(expr, { unknown : value }))
-    except:
-        pass
-    if minimum == None:
-        raise ValueError("invalid starting value")
+    minimum = weight(expr, { unknown : value })
     while True:
         no_new_neighbour = True
         for neighbour in neighbourhood(value, step):
             # loop through neighbourhood to find a new minimum
-            try:
-                new_minimum = weight(evaluate(expr, { unknown : neighbour }))
-                if new_minimum < minimum:
-                    minimum = new_minimum
-                    value = neighbour
-                    no_new_neighbour = False
-            except:
-                pass
+            new_minimum = weight(expr, { unknown : neighbour })
+            if new_minimum < minimum:
+                minimum = new_minimum
+                value = neighbour
+                no_new_neighbour = False
         if no_new_neighbour:
             if step < sys.float_info.epsilon:
                 # threshold reached, return index
