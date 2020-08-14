@@ -1,5 +1,15 @@
 import lex
 
+def show_value(value):
+    """Converts a parser value into a string."""
+    if isinstance(value, list):
+        inner = ", ".join([str(x) for x in value])
+        return "[" + inner + "]"
+    elif isinstance(value, complex):
+        return "%s+%si" % (value.real, value.imag)
+    else:
+        return str(value)
+
 def is_terminal(x):
     """Returns whether a token is a terminal value."""
     return type(x) == str and x.isalpha() or type(x) == float
@@ -12,12 +22,6 @@ class Node:
         self.arg = arg
 
     def __str__(self):
-        def show_value(value):
-            if type(value) == list:
-                inner = ", ".join([str(x) for x in value])
-                return "[" + inner + "]"
-            else:
-                return str(value)
         return "(" + show_value(self.op) + " " + show_value(self.arg) + ")"
 
 class Parser:

@@ -19,7 +19,7 @@ else:
         # evaluate expression
         print("attempting to evaluate expression...")
         value = solve.evaluate(expr)
-        print("  value: %s" % value)
+        print("  value: %s" % parse.show_value(value))
     elif kind == "hillclimb":
         # hillclimbing solver
         print("attempting hillclimb...")
