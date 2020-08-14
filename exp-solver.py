@@ -4,19 +4,29 @@ import sys
 
 def print_help():
     print("usage:")
-    print("  python exp-solver.py <command> [<options>]")
-    print("\navailable commands:")
-    print("  eval <expression>")
-    print("  hillclimb <expression>")
-    print("\nexample:")
-    print("  ~$ python exp-solver.py eval '1 + 3i'")
-    print("  --> (plus [1.0, (3.0 i)])")
-    print("  attempting to evaluate expression...")
-    print("    value: 1.0+3.0i")
+    print("  python exp-solver.py <expression> [<options>]")
+    print("\navailable options:")
+    print("  eval")
+    print("  hillclimb")
 
 args = sys.argv
 del args[0] # don't want working directory
-count = len(args)
+arg_count = len(args)
+if arg_count == 0:
+    print_help()
+else:
+    src = args[0]
+    options = args[1 :]
+    if src == "help" or src == "?":
+        print_help()
+    else:
+        try:
+            expr = parse.Parser(src).parse()
+            print("--> %s" % expr)
+        except Exception as e:
+            print("failed to parse expression! %s" % e)
+
+"""
 if count == 0:
     print_help()
 elif count < 2:
@@ -42,3 +52,4 @@ else:
         print("  solution = %s" % solution)
     else:
         print("unknown solver command '%s'" % command)
+"""
