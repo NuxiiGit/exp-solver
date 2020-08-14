@@ -4,10 +4,10 @@ import sys
 
 def print_help():
     print("usage:")
-    print("  python main.py [command] [expression] [options]")
+    print("  python main.py <command> [<options>]")
     print("\navailable commands:")
-    print("  eval")
-    print("  hillclimb")
+    print("  eval <expression>")
+    print("  hillclimb <expression>")
     print("\nexample:")
     print("  ~$ python main.py eval '1 + 3i'")
     print("  --> (plus [1.0, (3.0 i)])")
@@ -24,19 +24,21 @@ elif count < 2:
     print_help()
 else:
     command = args[0]
-    src = args[1]
     options = args[1 :]
-    expr = parse.Parser(src).parse()
-    print("--> %s" % expr)
-    if command == "eval":
+    if command == "eval" and len(options) == 1:
         # evaluate expression
-        print("attempting to evaluate expression...")
+        expr = parse.Parser(options[0]).parse()
+        print("attempting to evaluate the following expression...")
+        print("--> %s" % expr)
         value = solve.evaluate(expr)
-        print("  value: %s" % parse.show_value(value))
-    elif command == "hillclimb":
+        print(" = %s" % parse.show_value(value))
+    elif command == "hillclimb" and len(options) == 1:
         # hillclimbing solver
-        print("attempting hillclimb...")
+        src = options[0]
+        expr = parse.Parser(src).parse()
+        print("attempting hillclimbing algorithm...")
+        print("--> %s" % expr)
         solution = solve.hillclimb(expr, "x", start=0)
-        print("  solution: %s" % solution)
+        print("  solution = %s" % solution)
     else:
         print("unknown solver command '%s'" % command)
