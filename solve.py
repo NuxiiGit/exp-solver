@@ -2,7 +2,7 @@ import parse
 import ops
 import sys
 
-def evaluate(expr, binding):
+def evaluate(expr, binding={ }):
     """Evaluates an expression using this binding."""
     if isinstance(expr, parse.Node):
         op = evaluate(expr.op, binding)
