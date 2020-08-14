@@ -22,7 +22,17 @@ else:
     else:
         try:
             expr = parse.Parser(src).parse()
-            print("--> %s" % expr)
+            print("--> %s\n" % expr)
+            for option in options:
+                # consume options
+                params = option.split(":")
+                param_count = len(params)
+                if False:
+                    pass
+                else:
+                    print("skipping unknown option '%s'" % option)
+                    continue
+                print()
         except Exception as e:
             print("failed to parse expression! %s" % e)
 
