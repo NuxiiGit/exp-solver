@@ -1,5 +1,5 @@
-import parse
-import solve
+import lib.parse as parse
+import lib.solve as solve
 import sys
 
 def print_help():

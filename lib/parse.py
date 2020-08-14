@@ -1,4 +1,4 @@
-import lex
+import lib.lex as lex
 
 def show_value(value):
     """Converts a parser value into a string."""

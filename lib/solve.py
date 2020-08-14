@@ -1,5 +1,5 @@
-import parse
-import ops
+import lib.parse as parse
+import lib.ops as ops
 import sys
 
 def evaluate(expr, binding={ }):
