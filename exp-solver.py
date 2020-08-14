@@ -27,8 +27,10 @@ else:
                 # consume options
                 params = option.split(":")
                 param_count = len(params)
-                if False:
-                    pass
+                if params[0] == "eval":
+                    print("evaluating expression:")
+                    value = solve.evaluate(expr)
+                    print("  result = %s" % parse.show_value(value))
                 else:
                     print("skipping unknown option '%s'" % option)
                     continue
