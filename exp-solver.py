@@ -4,12 +4,12 @@ import sys
 
 def print_help():
     print("usage:")
-    print("  python main.py <command> [<options>]")
+    print("  python exp-solver.py <command> [<options>]")
     print("\navailable commands:")
     print("  eval <expression>")
     print("  hillclimb <expression>")
     print("\nexample:")
-    print("  ~$ python main.py eval '1 + 3i'")
+    print("  ~$ python exp-solver.py eval '1 + 3i'")
     print("  --> (plus [1.0, (3.0 i)])")
     print("  attempting to evaluate expression...")
     print("    value: 1.0+3.0i")
