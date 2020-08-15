@@ -9,59 +9,32 @@ def print_help():
     print("  eval")
     print("  hillclimb")
 
-args = sys.argv
-del args[0] # don't want working directory
-arg_count = len(args)
-if arg_count == 0:
-    print_help()
-else:
+def run(args):
+    if len(args) == 0:
+        print_help()
+        return
     src = args[0]
     options = args[1 :]
-    if src == "help" or src == "?":
+    if src in { "help", "?" } or src.isspace():
         print_help()
-    else:
-        try:
-            expr = parse.Parser(src).parse()
-            print("--> %s\n" % expr)
-            for option in options:
-                # consume options
-                params = option.split(":")
-                param_count = len(params)
-                if params[0] == "eval":
-                    print("evaluating expression:")
-                    value = solve.evaluate(expr)
-                    print("  result = %s" % parse.show_value(value))
-                else:
-                    print("skipping unknown option '%s'" % option)
-                    continue
-                print()
-        except Exception as e:
-            print("failed to parse expression! %s" % e)
-
-"""
-if count == 0:
-    print_help()
-elif count < 2:
-    print("invalid argument count!")
-    print_help()
-else:
-    command = args[0]
-    options = args[1 :]
-    if command == "eval" and len(options) == 1:
-        # evaluate expression
-        expr = parse.Parser(options[0]).parse()
-        print("attempting to evaluate the following expression...")
-        print("--> %s" % expr)
-        value = solve.evaluate(expr)
-        print(" = %s" % parse.show_value(value))
-    elif command == "hillclimb" and len(options) == 1:
-        # hillclimbing solver
-        src = options[0]
+        return
+    # parse expression
+    expr = 0
+    try:
         expr = parse.Parser(src).parse()
-        print("attempting hillclimbing algorithm...")
         print("--> %s" % expr)
-        solution = solve.hillclimb(expr, "x", start=0)
-        print("  solution = %s" % solution)
-    else:
-        print("unknown solver command '%s'" % command)
-"""
+    except Exception as e:
+        print("failed to parse expression! %s" % e)
+        return
+    # perform options
+    for option in options:
+        params = option.split(":")
+        param_count = len(params)
+        if params[0] == "eval":
+            print("bweh")
+        else:
+            print("skipping unknown option '%s'" % option)
+
+args = sys.argv
+del args[0] # don't want working directory
+run(args)
