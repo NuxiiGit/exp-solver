@@ -30,10 +30,16 @@ def run(args):
     for option in options:
         params = option.split(":")
         param_count = len(params)
+        msg = "performing %s with %s:" % (params[0], params[1 :])
         if params[0] == "eval":
-            print("bweh")
+            try:
+                value = solve.evaluate(expr)
+                msg += "\n  result = %s" % value
+            except Exception as e:
+                msg += "\n  unable to evaluate expression! %s" % e
         else:
-            print("skipping unknown option '%s'" % option)
+            msg = "skipping unknown option '%s'" % option
+        print(msg)
 
 args = sys.argv
 del args[0] # don't want working directory
