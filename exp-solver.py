@@ -32,8 +32,14 @@ def run(args):
         param_count = len(params)
         msg = "performing %s with %s:" % (params[0], params[1 :])
         if params[0] == "eval":
+            binding = { }
+            for param in params[1 :]:
+                assignment = param.split("=")
+                if len(assignment) != 2:
+                    msg += "\n  skipping malformed variable binding '%s'"
+                binding[assignment[0]] = 1
             try:
-                value = solve.evaluate(expr)
+                value = solve.evaluate(expr, binding)
                 msg += "\n  result = %s" % value
             except Exception as e:
                 msg += "\n  unable to evaluate expression! %s" % e
