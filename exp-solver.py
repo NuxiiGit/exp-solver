@@ -36,15 +36,15 @@ def run(args):
             for param in params[1 :]:
                 assignment = param.split("=")
                 if len(assignment) == 2:
-                    variable = assignment[0]
-                    value = assignment[1]
+                    variable = assignment[0].strip()
+                    value = assignment[1].strip()
                     try:
                         binding[variable] = solve.evaluate(
                                 parse.Parser(value).parse())
                         continue
                     except:
                         pass
-                msg += "\n  skipping malformed variable binding '%s'"
+                msg += "\n  skipping malformed variable binding '%s'" % param
             try:
                 value = solve.evaluate(expr, binding)
                 msg += "\n  result = %s" % value
