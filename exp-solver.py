@@ -36,11 +36,12 @@ def run(args):
     # perform options
     for option in options:
         params = option.split(":")
-        param_count = len(params)
-        msg = "performing %s with %s:" % (params[0], params[1 :])
-        if params[0] == "eval":
+        option = params[0]
+        params = params[1 :]
+        msg = "performing %s with %s:" % (option, params)
+        if option == "eval":
             binding = { }
-            for param in params[1 :]:
+            for param in params:
                 assignment = param.split("=")
                 if len(assignment) == 2:
                     variable = assignment[0].strip()
