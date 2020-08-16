@@ -9,6 +9,13 @@ def print_help():
     print("  eval")
     print("  hillclimb")
 
+def read_value(s, default=0):
+    try:
+        value = solve.evaluate(parse.Parser(s).parse())
+        return value
+    except:
+        return default
+
 def run(args):
     if len(args) == 0:
         print_help()
@@ -38,12 +45,7 @@ def run(args):
                 if len(assignment) == 2:
                     variable = assignment[0].strip()
                     value = assignment[1].strip()
-                    try:
-                        binding[variable] = solve.evaluate(
-                                parse.Parser(value).parse())
-                        continue
-                    except:
-                        pass
+                    binding[variable] = read_value(value)
                 msg += "\n  skipping malformed variable binding '%s'" % param
             try:
                 value = solve.evaluate(expr, binding)
