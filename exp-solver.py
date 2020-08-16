@@ -47,7 +47,7 @@ def run(args):
                 msg += "\n  skipping malformed variable binding '%s'" % param
             try:
                 value = solve.evaluate(expr, binding)
-                msg += "\n  result = %s" % value
+                msg += "\n  result = %s" % parse.show_value(value)
             except Exception as e:
                 msg += "\n  unable to evaluate expression! %s" % e
         else:

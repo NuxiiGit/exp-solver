@@ -6,7 +6,10 @@ def show_value(value):
         inner = ", ".join([str(x) for x in value])
         return "[" + inner + "]"
     elif isinstance(value, complex):
-        return "%s+%si" % (value.real, value.imag)
+        fmt = "%s+%si"
+        if value.imag < 0:
+            fmt = "%s%si"
+        return fmt % (value.real, value.imag)
     else:
         return str(value)
 
