@@ -53,6 +53,9 @@ def run(args):
                 msg += "\n  result = %s" % parse.show_value(value)
             except Exception as e:
                 msg += "\n  unable to evaluate expression! %s" % e
+        elif option == "hillclimb":
+            solution = solve.hillclimb(expr, "x")
+            msg += "\n  solution = %s" % parse.show_value(solution)
         else:
             msg = "skipping unknown option '%s'" % option
         print(msg)
