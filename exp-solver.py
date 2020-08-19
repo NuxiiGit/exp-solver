@@ -43,7 +43,14 @@ def run(args):
             value = assignment[1].strip()
             binding[variable] = read_value(value)
         value = solve.evaluate(expr, binding)
-        print(value)
+        print(parse.show_value(value))
+        return
+    if command == "hillclimb":
+        solution = solve.hillclimb(expr, "x")
+        if solution == None:
+            print("unable to find a solution")
+            return
+        print(parse.show_value(solution))
         return
     print("unknown command '%s'\n" % command)
     print_help()
