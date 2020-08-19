@@ -10,20 +10,15 @@ def print_help():
     print("  hillclimb")
 
 def read_expr(s):
-    try:
-        expr = parse.Parser(s).parse()
-        return expr
-    except:
-        return None
+    return parse.Parser(s).parse()
 
 def read_value(s, default=0):
     try:
-        if (expr := read_expr(s)) == None:
-            value = solve.evaluate(expr)
-            return value
+        expr = read_expr(s):
+        value = solve.evaluate(expr)
+        return value
     except:
-        pass
-    return default
+        return default
 
 def run(args):
     if len(args) == 0:
@@ -33,8 +28,25 @@ def run(args):
     options = args[1 :]
     if command in { "help", "?" } or command.isspace():
         print_help()
-    else:
-        print("unknown command '%s'" % command)
+        return
+    if command == "eval":
+        if len(options) == 0:
+            print("eval <expression> [<variable=binding>]")
+            return
+        expr = read_expr(options[0])
+        binding = { }
+        for param in options[1 :]:
+            assignment = param.split("=")
+            if len(assignment) != 2:
+                raise ValueError("malformed variable binding '%s'" % param)
+            variable = assignment[0].strip()
+            value = assignment[1].strip()
+            binding[variable] = read_value(value)
+        value = solve.evaluate(expr, binding)
+        print(value)
+        return
+    print("unknown command '%s'\n" % command)
+    print_help()
 
     return
     # parse expression
@@ -70,4 +82,7 @@ def run(args):
         print(msg)
 
 args = sys.argv
-run(args[1 :] if len(args) > 0 else [])
+try:
+    run(args[1 :] if len(args) > 0 else [])
+except Exception as e:
+    print("an error occurred!\n%s" % e)
