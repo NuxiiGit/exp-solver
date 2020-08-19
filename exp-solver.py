@@ -9,28 +9,34 @@ def print_help():
     print("  eval")
     print("  hillclimb")
 
+def read_expr(s):
+    try:
+        expr = parse.Parser(s).parse()
+        return expr
+    except:
+        return None
+
 def read_value(s, default=0):
     try:
-        value = solve.evaluate(parse.Parser(s).parse())
-        return value
+        if (expr := read_expr(s)) == None:
+            value = solve.evaluate(expr)
+            return value
     except:
-        return default
+        pass
+    return default
 
 def run(args):
     if len(args) == 0:
         print_help()
         return
-    src = args[0]
+    command = args[0]
     options = args[1 :]
     if src in { "help", "?" } or src.isspace():
         print_help()
         return
     # parse expression
-    expr = 0
-    try:
-        expr = parse.Parser(src).parse()
-        print("--> %s" % expr)
-    except Exception as e:
+    expr = read_expr(src)
+    if expr == None:
         print("failed to parse expression! %s" % e)
         return
     # perform options
