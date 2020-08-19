@@ -4,8 +4,8 @@ import sys
 
 def print_help():
     print("usage:")
-    print("  python exp-solver.py <expression> [<options>]")
-    print("\navailable options:")
+    print("  python exp-solver.py <command> [<options>]")
+    print("\navailable commands:")
     print("  eval")
     print("  hillclimb")
 
@@ -31,9 +31,12 @@ def run(args):
         return
     command = args[0]
     options = args[1 :]
-    if src in { "help", "?" } or src.isspace():
+    if command in { "help", "?" } or command.isspace():
         print_help()
-        return
+    else:
+        print("unknown command '%s'" % command)
+
+    return
     # parse expression
     expr = read_expr(src)
     if expr == None:
