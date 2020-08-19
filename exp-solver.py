@@ -14,7 +14,7 @@ def read_expr(s):
 
 def read_value(s, default=0):
     try:
-        expr = read_expr(s):
+        expr = read_expr(s);
         value = solve.evaluate(expr)
         return value
     except:
