@@ -28,32 +28,34 @@ def run(args):
     options = args[1 :]
     if command in { "help", "?" } or command.isspace():
         print_help()
-        return
-    if command == "eval":
+    elif command == "eval":
         if len(options) == 0:
             print("eval <expression> [<variable=binding>]")
-            return
-        expr = read_expr(options[0])
-        binding = { }
-        for param in options[1 :]:
-            assignment = param.split("=")
-            if len(assignment) != 2:
-                raise ValueError("malformed variable binding '%s'" % param)
-            variable = assignment[0].strip()
-            value = assignment[1].strip()
-            binding[variable] = read_value(value)
-        value = solve.evaluate(expr, binding)
-        print(parse.show_value(value))
-        return
-    if command == "hillclimb":
-        solution = solve.hillclimb(expr, "x")
-        if solution == None:
-            print("unable to find a solution")
-            return
-        print(parse.show_value(solution))
-        return
-    print("unknown command '%s'\n" % command)
-    print_help()
+        else:
+            expr = read_expr(options[0])
+            binding = { }
+            for param in options[1 :]:
+                assignment = param.split("=")
+                if len(assignment) != 2:
+                    raise ValueError("malformed variable binding '%s'" % param)
+                variable = assignment[0].strip()
+                value = assignment[1].strip()
+                binding[variable] = read_value(value)
+            value = solve.evaluate(expr, binding)
+            print(parse.show_value(value))
+    elif command == "hillclimb":
+        if len(options) == 0:
+            print("hillclimb <expression>")
+        else:
+            expr = read_expr(options[0])
+            solution = solve.hillclimb(expr, "x")
+            if solution == None:
+                print("unable to find a solution")
+            else:
+                print(parse.show_value(solution))
+    else:
+        print("unknown command '%s'\n" % command)
+        print_help()
 
 args = sys.argv
 try:
