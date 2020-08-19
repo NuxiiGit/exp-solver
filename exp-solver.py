@@ -61,5 +61,4 @@ def run(args):
         print(msg)
 
 args = sys.argv
-del args[0] # don't want working directory
-run(args)
+run(args[1 :] if len(args) > 0 else [])
