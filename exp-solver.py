@@ -55,39 +55,6 @@ def run(args):
     print("unknown command '%s'\n" % command)
     print_help()
 
-    return
-    # parse expression
-    expr = read_expr(src)
-    if expr == None:
-        print("failed to parse expression! %s" % e)
-        return
-    # perform options
-    for option in options:
-        params = option.split(":")
-        option = params[0]
-        params = params[1 :]
-        msg = "performing %s with %s:" % (option, params)
-        if option == "eval":
-            binding = { }
-            for param in params:
-                assignment = param.split("=")
-                if len(assignment) == 2:
-                    variable = assignment[0].strip()
-                    value = assignment[1].strip()
-                    binding[variable] = read_value(value)
-                msg += "\n  skipping malformed variable binding '%s'" % param
-            try:
-                value = solve.evaluate(expr, binding)
-                msg += "\n  result = %s" % parse.show_value(value)
-            except Exception as e:
-                msg += "\n  unable to evaluate expression! %s" % e
-        elif option == "hillclimb":
-            solution = solve.hillclimb(expr, "x")
-            msg += "\n  solution = %s" % parse.show_value(solution)
-        else:
-            msg = "skipping unknown option '%s'" % option
-        print(msg)
-
 args = sys.argv
 try:
     run(args[1 :] if len(args) > 0 else [])
