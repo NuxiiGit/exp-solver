@@ -44,7 +44,7 @@ def run(args):
             print("eval <expression> [<variable=binding>]")
         else:
             expr = read_expr(options[0])
-            binding = generate_binding(expr[1 :])
+            binding = generate_binding(options[1 :])
             value = solve.evaluate(expr, binding)
             print(parse.show_value(value))
     elif command == "hillclimb":
