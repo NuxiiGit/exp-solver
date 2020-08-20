@@ -53,7 +53,9 @@ def run(args):
             print("hillclimb <expression> <variable> [where] [<variable=binding>]")
         else:
             expr = read_expr(options[0])
-            solution = solve.hillclimb(expr, "x")
+            unknown = options[1]
+            binding = generate_binding(options[2 :])
+            solution = solve.hillclimb(expr, unknown)
             if solution == None:
                 print("unable to find a solution")
             else:
