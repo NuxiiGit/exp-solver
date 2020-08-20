@@ -22,13 +22,14 @@ def read_value(s, default=0):
 
 def generate_binding(args):
     binding = { }
-    for arg in args:
-        assignment = arg.split("=")
-        if len(assignment) != 2:
-            raise ValueError("malformed variable binding '%s'" % arg)
-        variable = assignment[0].strip()
-        value = assignment[1].strip()
-        binding[variable] = read_value(value)
+    if len(args) > 1 and args[0].strip() == "where":
+        for arg in args[1 :]:
+            assignment = arg.split("=")
+            if len(assignment) != 2:
+                raise ValueError("malformed variable binding '%s'" % arg)
+            variable = assignment[0].strip()
+            value = assignment[1].strip()
+            binding[variable] = read_value(value)
     return binding
 
 def run(args):
@@ -41,7 +42,7 @@ def run(args):
         print_help()
     elif command == "eval":
         if len(options) == 0:
-            print("eval <expression> [<variable=binding>]")
+            print("eval <expression> [where] [<variable=binding>]")
         else:
             expr = read_expr(options[0])
             binding = generate_binding(options[1 :])
