@@ -20,6 +20,17 @@ def read_value(s, default=0):
     except:
         return default
 
+def generate_binding(args):
+    binding = { }
+    for arg in args:
+        assignment = arg.split("=")
+        if len(assignment) != 2:
+            raise ValueError("malformed variable binding '%s'" % arg)
+        variable = assignment[0].strip()
+        value = assignment[1].strip()
+        binding[variable] = read_value(value)
+    return binding
+
 def run(args):
     if len(args) == 0:
         print_help()
@@ -33,19 +44,12 @@ def run(args):
             print("eval <expression> [<variable=binding>]")
         else:
             expr = read_expr(options[0])
-            binding = { }
-            for param in options[1 :]:
-                assignment = param.split("=")
-                if len(assignment) != 2:
-                    raise ValueError("malformed variable binding '%s'" % param)
-                variable = assignment[0].strip()
-                value = assignment[1].strip()
-                binding[variable] = read_value(value)
+            binding = generate_binding(expr[1 :])
             value = solve.evaluate(expr, binding)
             print(parse.show_value(value))
     elif command == "hillclimb":
         if len(options) == 0:
-            print("hillclimb <expression>")
+            print("hillclimb <expression> [<variable=default>]")
         else:
             expr = read_expr(options[0])
             solution = solve.hillclimb(expr, "x")
