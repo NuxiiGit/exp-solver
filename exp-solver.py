@@ -41,7 +41,7 @@ def run(args):
     if command in { "help", "?" } or command.isspace():
         print_help()
     elif command == "eval":
-        if len(options) == 0:
+        if len(options) < 1:
             print("eval <expression> [where] [<variable=binding>]")
         else:
             expr = read_expr(options[0])
@@ -49,8 +49,8 @@ def run(args):
             value = solve.evaluate(expr, binding)
             print(parse.show_value(value))
     elif command == "hillclimb":
-        if len(options) == 0:
-            print("hillclimb <expression> [<variable=default>]")
+        if len(options) < 2:
+            print("hillclimb <expression> <variable> [where] [<variable=binding>]")
         else:
             expr = read_expr(options[0])
             solution = solve.hillclimb(expr, "x")
