@@ -35,6 +35,8 @@ def weight(expr, binding):
 
 def neighbourhood(current, amount):
     """Returns the neighbourhood of this mathematical object."""
+    if isinstance(current, list):
+        raise ValueError("neighbourhood operators are not implemented for vector unknowns")
     n = 16
     angle = 2 * math.pi / n
     return [current + complex(amount * math.cos(x * angle), amount * math.sin(x * angle)) for x in range(0, n)]
