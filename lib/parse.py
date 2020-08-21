@@ -2,14 +2,17 @@ import lib.lex as lex
 
 def show_value(value):
     """Converts a parser value into a string."""
+    number = "%.3f"
     if isinstance(value, list):
         inner = ", ".join([str(x) for x in value])
         return "[" + inner + "]"
     elif isinstance(value, complex):
-        fmt = "%s+%si"
+        fmt = number + "+" + number + "i"
         if value.imag < 0:
-            fmt = "%s%si"
+            fmt = number + number + "i"
         return fmt % (value.real, value.imag)
+    elif isinstance(value, float):
+        return number % value
     else:
         return str(value)
 
