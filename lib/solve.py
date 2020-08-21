@@ -37,7 +37,7 @@ def neighbourhood(current, amount):
     """Returns the neighbourhood of this mathematical object."""
     n = 16
     angle = 2 * math.pi / n
-    return [complex(math.cos(x * angle), math.sin(x * angle)) for x in range(0, n)]
+    return [current + complex(amount * math.cos(x * angle), amount * math.sin(x * angle)) for x in range(0, n)]
 
 def hillclimb(expr, unknown, variables, resolution=0.1):
     """Performs a naive hillclimbing optimisation algorithm to solve for `unknown`."""
