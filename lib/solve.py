@@ -41,7 +41,7 @@ def neighbourhood(current, amount):
     angle = 2 * math.pi / n
     return [current + complex(amount * math.cos(x * angle), amount * math.sin(x * angle)) for x in range(0, n)]
 
-def hillclimb(expr, unknown, variables, resolution=0.1):
+def hillclimb(expr, unknown, variables, resolution=0.1, accuracy=0.0005):
     """Performs a naive hillclimbing optimisation algorithm to solve for `unknown`."""
     step = resolution
     binding = variables.copy()
@@ -64,8 +64,7 @@ def hillclimb(expr, unknown, variables, resolution=0.1):
         if no_new_neighbour:
             if step < sys.float_info.epsilon:
                 # threshold reached, return index
-                print(value)
-                return None if minimum > sys.float_info.epsilon else value
+                return None if minimum > accuracy else value
             else:
                 # increase resolution
                 step /= 2
