@@ -64,7 +64,8 @@ def hillclimb(expr, unknown, variables, resolution=0.1):
         if no_new_neighbour:
             if step < sys.float_info.epsilon:
                 # threshold reached, return index
-                return value
+                print(value)
+                return None if minimum > sys.float_info.epsilon else value
             else:
                 # increase resolution
                 step /= 2
