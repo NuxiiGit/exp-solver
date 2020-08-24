@@ -27,7 +27,9 @@ def evaluate(expr, binding={ }):
 
 def approximately_zero(value):
     """Returns whether this floating point value is approimately equal to zero."""
-    e1 = math.floor(math.log10(value))
+    if value == 0:
+        return True
+    e1 = math.floor(math.log10(abs(value)))
     e2 = math.floor(math.log10(sys.float_info.epsilon))
     return e1 <= e2 + 1
 
@@ -69,6 +71,7 @@ def hillclimb(expr, unknown, variables, resolution=0.1):
                 no_new_neighbour = False
         if no_new_neighbour:
             if approximately_zero(step):
+                print(value)
                 # threshold reached, return index
                 return value if approximately_zero(minimum) else None
             else:
