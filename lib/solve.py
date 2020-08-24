@@ -25,6 +25,12 @@ def evaluate(expr, binding={ }):
     else:
         return expr
 
+def approximately_zero(value):
+    """Returns whether this floating point value is approimately equal to zero."""
+    e1 = math.floor(math.log10(value))
+    e2 = math.floor(math.log10(sys.float_info.epsilon))
+    return e1 <= e2 + 1
+
 def weight(expr, binding):
     """Computes the weight of an expression using this binding."""
     try:
@@ -41,7 +47,7 @@ def neighbourhood(current, amount):
     angle = 2 * math.pi / n
     return [current + complex(amount * math.cos(x * angle), amount * math.sin(x * angle)) for x in range(0, n)]
 
-def hillclimb(expr, unknown, variables, resolution=0.1, accuracy=0.0005):
+def hillclimb(expr, unknown, variables, resolution=0.1):
     """Performs a naive hillclimbing optimisation algorithm to solve for `unknown`."""
     step = resolution
     binding = variables.copy()
@@ -62,9 +68,9 @@ def hillclimb(expr, unknown, variables, resolution=0.1, accuracy=0.0005):
                 value = neighbour
                 no_new_neighbour = False
         if no_new_neighbour:
-            if step < sys.float_info.epsilon:
+            if approximately_zero(step):
                 # threshold reached, return index
-                return None if minimum > accuracy else value
+                return value if approximately_zero(minimum) else None
             else:
                 # increase resolution
                 step /= 2
