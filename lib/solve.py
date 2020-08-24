@@ -45,11 +45,13 @@ def neighbourhood(current, amount):
     """Returns the neighbourhood of this mathematical object."""
     if isinstance(current, list):
         raise ValueError("neighbourhood operators are not implemented for vector unknowns")
-    n = 16
-    angle = 2 * math.pi / n
-    return [current + complex(amount * math.cos(x * angle), amount * math.sin(x * angle)) for x in range(0, n)]
+    angle = math.pi / 8
+    neighbours = [current + complex(amount * math.cos(x * angle), amount * math.sin(x * angle)) for x in [1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16]]
+    neighbours.append(current + amount)
+    neighbours.append(current - amount)
+    return neighbours
 
-def hillclimb(expr, unknown, variables, resolution=0.1):
+def hillclimb(expr, unknown, variables, resolution=10):
     """Performs a naive hillclimbing optimisation algorithm to solve for `unknown`."""
     step = resolution
     binding = variables.copy()
@@ -71,7 +73,6 @@ def hillclimb(expr, unknown, variables, resolution=0.1):
                 no_new_neighbour = False
         if no_new_neighbour:
             if approximately_zero(step):
-                print(value)
                 # threshold reached, return index
                 return value if approximately_zero(minimum) else None
             else:
