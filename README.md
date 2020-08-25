@@ -7,25 +7,25 @@ This repository contains the source code for `exp-solver`, a simple command-line
 Evaluating simple expressions
 ```
 ~$ python exp-solver.py eval 5+3
-8.000
+8
 ```
 
 Evaluating the complex product of two numbers
 ```
 ~$ python exp-solver.py eval z*r where z=2+3i r=1+1.2i
--1.600+5.400i
+-1.6+5.4i
 ```
 
 Computing the length of a natural number `n`
 ```
 ~$ python exp-solver.py eval 'ceil(log(n))' where n=18942
-5.000
+5
 ```
 
 Using hillclimbing to solve the equation `x^2+2` for the unknown `x`
 ```
 ~$ python exp-solver.py hillclimb x^2+2 x
--0.000+1.414i
+1.414213562i
 ```
 
 ## Features
