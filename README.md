@@ -22,6 +22,12 @@ Computing the length of a natural number `n`
 5.000
 ```
 
+Using hillclimbing to solve the equation `x^2+2` for the unknown `x`
+```
+~$ python exp-solver.py hillclimb x^2+2 x
+-0.000+1.414i
+```
+
 ## Features
 
 This application includes methods of evaluating and solving expressions written basic mathematical notation. The currently supported features include
