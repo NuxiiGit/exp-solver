@@ -16,6 +16,12 @@ Evaluating the complex product of two numbers
 -1.600+5.400i
 ```
 
+Computing the length of a natural number `n`
+```
+~$ python exp-solver.py eval 'ceil(log(n))' where n=18942
+5.000
+```
+
 ## Features
 
 This application includes methods of evaluating and solving expressions written basic mathematical notation. The currently supported features include
