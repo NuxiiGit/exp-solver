@@ -50,7 +50,7 @@ def run(args):
             print(parse.show_value(value))
     elif command == "hillclimb":
         if len(options) < 2:
-            print("hillclimb <expression> <variable> [where] [<variable=binding>]")
+            print("hillclimb <expression> <unknown> [where] [<variable=binding>]")
         else:
             expr = read_expr(options[0])
             unknown = options[1]
