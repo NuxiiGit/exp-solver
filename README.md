@@ -4,10 +4,16 @@ This repository contains the source code for `exp-solver`, a simple command-line
 
 ## Examples
 
+Evaluating simple expressions
+```
+~$ python exp-solver.py eval 5+3
+8.000
+```
+
 Evaluating the complex product of two numbers
 ```
-~$ python exp-solver.py eval '(2 + 3i) + (1 + 1.2i)'
-3.000+4.200i
+~$ python exp-solver.py eval z*r where z=2+3i r=1+1.2i
+-1.600+5.400i
 ```
 
 ## Features
