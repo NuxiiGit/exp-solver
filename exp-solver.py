@@ -10,6 +10,9 @@ def show_value(value):
     elif isinstance(value, complex):
         real = show_value(value.real)
         imag = show_value(value.imag)
+        if imag in { "0", "-0" }:
+            # negligible complex component
+            return real
         separator = "+" if value.imag >= 0 else ""
         return real + separator + imag + "i"
     elif isinstance(value, float):
