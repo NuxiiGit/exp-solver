@@ -2,12 +2,20 @@
 
 This repository contains the source code for `exp-solver`, a simple command-line application for evaluating and numerically solving complex mathematical expressions.
 
+## Examples
+
+Evaluating the complex product of two numbers
+```
+~$ python exp-solver.py eval '(2 + 3i) + (1 + 1.2i)'
+3.000+4.200i
+```
+
 ## Features
 
 This application includes methods of evaluating and solving expressions written basic mathematical notation. The currently supported features include
  - methods of evaluating expressions
  - methods of solving expressions using the hillclimbing optimisation algorithm
- - methods of adding additional variable bindings using the `where` clause (`'a+b' where a=1 b=2`)
+ - methods of adding additional variable bindings using the `where` clause (`a+b where a=1 b=2`)
  - support for complex numbers and vectors
  - support for first-class and higher-order functions
  - support for basic arithmetic operations
