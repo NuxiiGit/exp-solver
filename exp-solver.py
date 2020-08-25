@@ -13,7 +13,7 @@ def show_value(value):
         separator = "+" if value.imag >= 0 else ""
         return real + separator + imag + "i"
     elif isinstance(value, float):
-        return "%.3f" % value
+        return ("%.9f" % value).rstrip("0").rstrip(".")
     else:
         return str(value)
 
