@@ -11,7 +11,7 @@ def show_value(value):
         if value.imag < 0:
             fmt = number + number + "i"
         return fmt % (value.real, value.imag)
-    elif isinstance(value, float):
+    elif isinstance(value, (float, int)):
         return number % value
     else:
         return str(value)
