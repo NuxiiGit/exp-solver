@@ -1,20 +1,5 @@
 import lib.lex as lex
 
-def show_value(value):
-    """Converts a parser value into a string."""
-    if isinstance(value, list):
-        inner = ", ".join([show_value(x) for x in value])
-        return "[" + inner + "]"
-    elif isinstance(value, complex):
-        real = show_value(value.real)
-        imag = show_value(value.imag)
-        separator = "+" if value.imag >= 0 else ""
-        return real + separator + imag + "i"
-    elif isinstance(value, float):
-        return "%.3f" % value
-    else:
-        return str(value)
-
 def is_terminal(x):
     """Returns whether a token is a terminal value."""
     return type(x) == str and x.isalpha() or type(x) == float
@@ -25,9 +10,6 @@ class Node:
     def __init__(self, op, arg):
         self.op = op
         self.arg = arg
-
-    def __str__(self):
-        return "(" + show_value(self.op) + " " + show_value(self.arg) + ")"
 
 class Parser:
     """Parses an array of tokens into a syntax tree."""

@@ -2,6 +2,21 @@ import lib.parse as parse
 import lib.solve as solve
 import sys
 
+def show_value(value):
+    """Converts a parser value into a string."""
+    if isinstance(value, list):
+        inner = ", ".join([show_value(x) for x in value])
+        return "[" + inner + "]"
+    elif isinstance(value, complex):
+        real = show_value(value.real)
+        imag = show_value(value.imag)
+        separator = "+" if value.imag >= 0 else ""
+        return real + separator + imag + "i"
+    elif isinstance(value, float):
+        return "%.3f" % value
+    else:
+        return str(value)
+
 def print_help():
     print("usage:")
     print("  python exp-solver.py <command> [<options>]")
@@ -47,7 +62,7 @@ def run(args):
             expr = read_expr(options[0])
             binding = generate_binding(options[1 :])
             value = solve.evaluate(expr, binding)
-            print(parse.show_value(value))
+            print(show_value(value))
     elif command == "hillclimb":
         if len(options) < 2:
             print("hillclimb <expression> <unknown> [where] [<variable=binding>]")
@@ -59,7 +74,7 @@ def run(args):
             if solution == None:
                 print("unable to find a solution")
             else:
-                print(parse.show_value(solution))
+                print(show_value(solution))
     else:
         print("unknown command '%s'\n" % command)
         print_help()
