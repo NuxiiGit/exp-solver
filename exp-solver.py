@@ -13,6 +13,9 @@ def show_value(value):
         if imag in { "0", "-0" }:
             # negligible complex component
             return real
+        if real in { "0", "-0" }:
+            # negligible real component
+            return imag + "i"
         separator = "+" if value.imag >= 0 else ""
         return real + separator + imag + "i"
     elif isinstance(value, float):
