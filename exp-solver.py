@@ -61,7 +61,7 @@ def run(args):
     options = args[1 :]
     if command in { "help", "?" } or command.isspace():
         print_help()
-    elif command == "eval":
+    elif command in { "eval", "evaluate" }:
         if len(options) < 1:
             print("eval <expression> [where] [<variable=binding>]")
         else:
@@ -69,14 +69,14 @@ def run(args):
             binding = generate_binding(options[1 :])
             value = solve.evaluate(expr, binding)
             print(show_value(value))
-    elif command == "hillclimb":
+    elif command in { "hillclimb", "hillclimbing" }:
         if len(options) < 2:
             print("hillclimb <expression> <unknown> [where] [<variable=binding>]")
         else:
             expr = read_expr(options[0])
             unknown = options[1]
             binding = generate_binding(options[2 :])
-            solution = solve.hillclimb(expr, unknown, binding)
+            solution = solve.hillclimbing(expr, unknown, binding)
             if solution == None:
                 print("unable to find a solution")
             else:

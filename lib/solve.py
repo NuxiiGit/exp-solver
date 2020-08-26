@@ -36,15 +36,13 @@ def weight(expr, binding):
 
 def neighbourhood(current, amount):
     """Returns the neighbourhood of this mathematical object."""
-    if isinstance(current, list):
-        raise ValueError("neighbourhood operators are not implemented for vector unknowns")
     angle = math.pi / 8
     neighbours = [current + complex(amount * math.cos(x * angle), amount * math.sin(x * angle)) for x in [1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16]]
     neighbours.append(current + amount)
     neighbours.append(current - amount)
     return neighbours
 
-def hillclimb(expr, unknown, variables, resolution=10):
+def hillclimbing(expr, unknown, variables, resolution=10):
     """Performs a naive hillclimbing optimisation algorithm to solve for `unknown`."""
     step = resolution
     binding = variables.copy()
@@ -53,6 +51,8 @@ def hillclimb(expr, unknown, variables, resolution=10):
         value = binding[unknown]
     else:
         binding[unknown] = 0
+    if isinstance(value, list):
+        raise ValueError("hillclimbing is not supported for vector unknowns")
     minimum = weight(expr, binding)
     while True:
         no_new_neighbour = True
