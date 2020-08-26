@@ -34,15 +34,16 @@ def weight(expr, binding):
     except:
         return sys.float_info.max
 
-def neighbourhood(current, amount):
+def neighbourhood(current, distance):
     """Returns the neighbourhood of this mathematical object."""
-    angle = math.pi / 8
-    neighbours = [current + complex(amount * math.cos(x * angle), amount * math.sin(x * angle)) for x in [1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16]]
-    neighbours.append(current + amount)
-    neighbours.append(current - amount)
+    neighbours = [
+            current + distance,
+            current - distance,
+            current + distance * 1j,
+            current - distance * 1j]
     return neighbours
 
-def hillclimbing(expr, unknown, variables, resolution=10):
+def hillclimbing(expr, unknown, variables, resolution=0.1):
     """Performs a naive hillclimbing optimisation algorithm to solve for `unknown`."""
     step = resolution
     binding = variables.copy()
