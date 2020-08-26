@@ -2,6 +2,7 @@ import lib.parse as parse
 import lib.ops as ops
 import sys
 import math
+import random
 
 def evaluate(expr, binding={ }):
     """Evaluates an expression using this binding."""
@@ -70,3 +71,17 @@ def hillclimb(expr, unknown, variables, resolution=10):
             else:
                 # increase resolution
                 step /= 2
+
+def simulated_annealing(expr, unknown, variables, resolution=10):
+    """Performs a simulated annealing optimisation algorithm to solve for `unknown`."""
+    binding = variables.copy()
+    value = 0
+    if unknown in binding:
+        value = binding[unknown]
+    else:
+        binding[unknown] = 0
+    minimum = weight(expr, binding)
+    while True:
+        neighbour = random.choice(neighbourhood(value, step))
+        binding[unknown] = neighbour
+        new_minimum = weight(expr, binding)
