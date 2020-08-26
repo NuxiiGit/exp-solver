@@ -86,3 +86,8 @@ def simulated_annealing(expr, unknown, variables, resolution=10):
         neighbour = random.choice(neighbourhood(value, step))
         binding[unknown] = neighbour
         new_minimum = weight(expr, binding)
+        if new_minimum > minimum:
+            diff = minimum - new_minimum
+            
+        minimum = new_minimum
+        value = neighbour
