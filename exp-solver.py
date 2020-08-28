@@ -29,6 +29,9 @@ def print_help():
     print("\navailable commands:")
     print("  eval")
     print("  hillclimb")
+    print("\nexample:")
+    print("  ~$ python exp-solver.py hillclimb 'x^2 + 2' x")
+    print("  1.414213562i")
 
 def read_expr(s):
     return parse.Parser(s).parse()
