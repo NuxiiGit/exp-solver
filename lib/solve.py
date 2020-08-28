@@ -68,26 +68,7 @@ def hillclimbing(expr, unknown, variables, resolution=0.1):
         if no_new_neighbour:
             if step <= sys.float_info.epsilon:
                 # threshold reached, return index
-                return value if minimum <= 10e-09 else None
+                return value if minimum <= 1e-09 else None
             else:
                 # increase resolution
                 step /= 2
-
-def simulated_annealing(expr, unknown, variables, resolution=10):
-    """Performs a simulated annealing optimisation algorithm to solve for `unknown`."""
-    binding = variables.copy()
-    value = 0
-    if unknown in binding:
-        value = binding[unknown]
-    else:
-        binding[unknown] = 0
-    minimum = weight(expr, binding)
-    while True:
-        neighbour = random.choice(neighbourhood(value, step))
-        binding[unknown] = neighbour
-        new_minimum = weight(expr, binding)
-        if new_minimum > minimum:
-            diff = minimum - new_minimum
-            
-        minimum = new_minimum
-        value = neighbour

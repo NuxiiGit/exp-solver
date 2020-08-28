@@ -81,18 +81,6 @@ def run(args):
                 print("unable to find a solution")
             else:
                 print(show_value(solution))
-    elif command in { "anneal", "annealing" }:
-        if len(options) < 2:
-            print("anneal <expression> <unknown> [where] [<variable=binding>]")
-        else:
-            expr = read_expr(options[0])
-            unknown = options[1]
-            binding = generate_binding(options[2 :])
-            solution = solve.simulated_annealing(expr, unknown, binding)
-            if solution == None:
-                print("unable to find a solution")
-            else:
-                print(show_value(solution))
     else:
         print("unknown command '%s'\n" % command)
         print_help()
