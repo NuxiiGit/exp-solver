@@ -20,6 +20,11 @@ def op_plus(x):
             for i in range(0, n):
                 xs.append(binary_plus(a[i], b[i]))
             return xs
+        elif callable(a) != callable(b):
+            if callable(a):
+                return lambda x: a(x) + b
+            else:
+                return lambda x: a + b(x)
         else:
             return a + b
     if isinstance(x, list):
