@@ -20,11 +20,12 @@ def op_plus(x):
             for i in range(0, n):
                 xs.append(binary_plus(a[i], b[i]))
             return xs
-        elif callable(a) != callable(b):
-            if callable(a):
-                return lambda x: a(x) + b
-            else:
-                return lambda x: a + b(x)
+        elif callable(a) and callable(b):
+            return lambda x: a(x) + b(x)
+        elif callable(a):
+            return lambda x: a(x) + b
+        elif callable(b):
+            return lambda x: a + b(x)
         else:
             return a + b
     if isinstance(x, list):
@@ -46,8 +47,16 @@ def op_prod(x):
             for i in range(0, n):
                 dot = dot + binary_prod(a[i], b[i])
             return dot
+        elif isinstance(a, list):
+            return [b * x for x in a]
         elif isinstance(b, list):
             return [a * x for x in b]
+        elif callable(a) and callable(b):
+            return lambda x: a(x) + b(x)
+        elif callable(a):
+            return lambda x: a(x) + b
+        elif callable(b):
+            return lambda x: a + b(x)
         else:
             return a * b
     if isinstance(x, list):
@@ -93,7 +102,14 @@ def op_exp(x):
             raise ArithmeticError("undefined exponent argument count")
         base = x[0]
         val = x[1]
-    return base ** val
+    if callable(base) and callable(val):
+        return lambda x: base(x) ** val(x)
+    elif callable(base):
+        return lambda x: base(x) ** val
+    elif callable(val):
+        return lambda x: base ** val(x)
+    else:
+        return base ** val
 
 def op_sqrt(x):
     """Returns the square root of this mathematical object."""
